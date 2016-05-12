@@ -10,14 +10,13 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({x: 2300, y: 200, width: 1600, height: 1200})
-  // mainWindow.$ = mainWindow.jQuery = require('../node_modules/jquery/dist/jquery.min.js');  mainWindow.getWindow().$ = window.jQuery = require('../node_modules/jquery/dist/jquery.min.js');
+  mainWindow = new BrowserWindow({x: 2300, y: 200, width: 1200, height: 800})
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html')
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -51,6 +50,3 @@ app.on('activate', function () {
     createWindow()
   }
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
