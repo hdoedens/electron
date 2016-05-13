@@ -30,8 +30,4 @@ function typeAhead($scope) {
     },
     getterSetter: true
   };
-  
-  $scope.blurred = function blurred(message) {
-    console.log(message);
-  }
 }

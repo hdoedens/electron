@@ -9,6 +9,7 @@
     <script src="../node_modules/angular-resource/angular-resource.min.js" type="text/javascript"></script>
     <script src="../node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js" type="text/javascript"></script>
     <script src="./src/controllers/typeAhead.js" type="text/javascript"></script>
+    <script src="./src/controllers/liturgie.js" type="text/javascript"></script>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css" />
   </head>
   
@@ -20,32 +21,21 @@
         <div class="col-md-3">
           <button type="button" class="btn btn-default">tekst1</button>
         </div>
-        <div class="col-md-9" ng-controller="TypeAheadController">
+        <div class="col-md-9" ng-controller="LiturgieController">
           <h4>Static arrays</h4>
-          <input type="text" ng-change="blurred('foo')" ng-model="selected" uib-typeahead="item for item in items | filter:$viewValue | limitTo:8" class="form-control">
+          <div ng-repeat="onderdeel in onderdelen">
+            <!--<input type="text" ng-blur="blurred('foo')" placeholder="onderdeel" ng-model="onderdeel" uib-typeahead="item for item in items | filter:$viewValue | limitTo:8" class="form-control" ng-controller="TypeAheadController">-->
+            <input ng-model="onderdeel" ng-blur="addInput()" />
+          </div>
         </div>
       </div>
-      <!--<div class="btn-group" data-toggle="buttons">
-  
-        <label class="btn btn-primary" ng-model="bigData.breakfast" btn-checkbox>
-          Breakfast
-        </label>
-    
-        <label class="btn btn-primary" ng-model="bigData.lunch" btn-checkbox>
-          Lunch
-        </label>
-    
-        <label class="btn btn-primary" ng-model="bigData.dinner" btn-checkbox>
-          Dinner
-        </label>
-      
-      </div>-->
       
     </div>
     
     <script>
       angular.module('pokegeek', ['ui.bootstrap', 'ngRoute', 'ngResource'])
-      .controller('TypeAheadController', typeAhead);
+      .controller('TypeAheadController', typeAhead)
+      .controller('LiturgieController', liturgie);
     </script>
     
   </body>
