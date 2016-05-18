@@ -23,21 +23,28 @@
         </div>
         <div class="col-md-4">
           <h4>Invoer</h4>
-          <div ng-repeat="regel in onderdelen track by $index">
-            <input type="text"
-              ng-change="manageInputs($index, regel)"
-              typeahead-on-select="manageInputs($index, regel)"
-              placeholder="begin met typen"
-              ng-model="regel"
-              uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
-              class="form-control"
-              ng-controller="TypeAheadController">
-          </div>
+          <form name="form" class="css-form form-inline" novalidate>
+            <div ng-repeat="regel in onderdelen track by $index">
+              <input type="text"
+                ng-change="manageInputs($index, regel)"
+                typeahead-on-select="manageInputs($index, regel)"
+                placeholder="begin met typen"
+                ng-model="regel"
+                name="regel"
+                uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
+                class="form-control"
+                ng-controller="TypeAheadController" validator />
+            </div>
+          </form>
         </div>
         <div class="col-md-4">
           <h4>Resultaat</h4>
-          <div ng-repeat="regel in onderdelen track by $index">
-            <input type="text" class="form-control" ng-model="regel" readonly />
+            <div class="form-group has-success has-feedback">
+              <div ng-repeat="regel in onderdelen track by $index">
+                <input type="text" class="form-control" ng-model="regel" readonly />
+                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
