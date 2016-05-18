@@ -12,37 +12,44 @@
     <script src="./src/controllers/liturgie.js" type="text/javascript"></script>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css" />
   </head>
-  
+
   <body>
-    
+
     <div class="container-fluid" ng-app="pokegeek">
-      
+
       <div class="row" ng-controller="LiturgieController">
         <div class="col-md-3">
           <button type="button" class="btn btn-default">tekst1</button>
         </div>
         <div class="col-md-4">
-          <h4>Liturgie</h4>
+          <h4>Invoer</h4>
           <div ng-repeat="regel in onderdelen track by $index">
-            <input type="text" ng-change="manageInputs($index, regel)" placeholder="begin met typen" ng-model="regel" uib-typeahead="item for item in items | filter:$viewValue | limitTo:8" class="form-control" ng-controller="TypeAheadController">
+            <input type="text"
+              ng-change="manageInputs($index, regel)"
+              typeahead-on-select="manageInputs($index, regel)"
+              placeholder="begin met typen"
+              ng-model="regel"
+              uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
+              class="form-control"
+              ng-controller="TypeAheadController">
           </div>
-          <!--<textarea rows="10" cols="30" ng-model="liturgie" placeholder="begin met typen" ng-change="validateInput(liturgie)" uib-typeahead="item for item in items | filter:$viewValue | limitTo:8" class="form-control" ng-controller="TypeAheadController"></textarea>-->
         </div>
         <div class="col-md-4">
+          <h4>Resultaat</h4>
           <div ng-repeat="regel in onderdelen track by $index">
-            <span>{{ regel }}</span>
+            <input type="text" class="form-control" ng-model="regel" readonly />
           </div>
         </div>
       </div>
-      
+
     </div>
-    
+
     <script>
       angular.module('pokegeek', ['ui.bootstrap', 'ngRoute', 'ngResource'])
       .controller('TypeAheadController', typeAhead)
       .controller('LiturgieController', liturgie);
     </script>
-    
+
   </body>
 
 </html>
