@@ -20,32 +20,33 @@
       <div class="row" ng-controller="LiturgieController">
         <div class="col-md-3">
           <button type="button" class="btn btn-default">tekst1</button>
+          <form name="myForm">
+            <input name="myInput" ng-model="mnput" required>
+          </form>
+          
+          <p>The input's valid state is:</p>
+          <h1 ng-show="myForm.myInput.$valid">{{myForm.myInput.$valid}}</h1>
         </div>
         <div class="col-md-4">
           <h4>Invoer</h4>
-          <form name="form" class="css-form form-inline" novalidate>
-            <div ng-repeat="regel in onderdelen track by $index">
-              <input type="text"
-                ng-change="manageInputs($index, regel)"
-                typeahead-on-select="manageInputs($index, regel)"
-                placeholder="begin met typen"
-                ng-model="regel"
-                name="regel"
-                uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
-                class="form-control"
-                ng-controller="TypeAheadController" validator />
-            </div>
-          </form>
-        </div>
-        <div class="col-md-4">
-          <h4>Resultaat</h4>
+          <form name="regelForm" class="css-form form-inline" novalidate>
             <div class="form-group has-success has-feedback">
               <div ng-repeat="regel in onderdelen track by $index">
-                <input type="text" class="form-control" ng-model="regel" readonly />
-                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                <input 
+                  ng-model="regel"
+                  name="regel"
+                  class="form-control" 
+                  type="text"
+                  ng-pattern="abc"
+                  <span ng-show="regelForm.regel.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <!--typeahead-on-select="manageInputs($index, regel)"
+                  ng-change="manageInputs($index, regel)">
+                  placeholder="begin met typen"
+                  uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
+                  ng-controller="TypeAheadController" -->
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
 
