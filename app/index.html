@@ -11,6 +11,7 @@
     <script src="./src/controllers/typeAhead.js" type="text/javascript"></script>
     <script src="./src/controllers/liturgie.js" type="text/javascript"></script>
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="./css/app.css" />
   </head>
 
   <body>
@@ -20,31 +21,29 @@
       <div class="row" ng-controller="LiturgieController">
         <div class="col-md-3">
           <button type="button" class="btn btn-default">tekst1</button>
-          <form name="myForm">
-            <input name="myInput" ng-model="mnput" required>
-          </form>
-          
-          <p>The input's valid state is:</p>
-          <h1 ng-show="myForm.myInput.$valid">{{myForm.myInput.$valid}}</h1>
         </div>
         <div class="col-md-4">
           <h4>Invoer</h4>
           <form name="regelForm" class="css-form form-inline" novalidate>
-            <div class="form-group has-success has-feedback">
-              <div ng-repeat="regel in onderdelen track by $index">
+            <div ng-repeat="regel in onderdelen track by $index">
+              <div class="form-group has-success has-feedback">
                 <input 
                   ng-model="regel"
-                  name="regel"
-                  class="form-control" 
+                  name="regel{{$index}}"
                   type="text"
-                  ng-pattern="abc"
-                  <span ng-show="regelForm.regel.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                  <!--typeahead-on-select="manageInputs($index, regel)"
-                  ng-change="manageInputs($index, regel)">
+                  class="form-control"
+                  ng-pattern="/gezang/"
+                  ng-change="manageInputs($index, regel)"
                   placeholder="begin met typen"
                   uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
-                  ng-controller="TypeAheadController" -->
-              </div>
+                  typeahead-on-select="manageInputs($index, regel)"
+                  ng-controller="TypeAheadController"
+                  required
+                  >
+                  <span ng-show="regelForm.regel{{$index}}.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <!--
+                  -->
+                </div>
             </div>
           </form>
         </div>
