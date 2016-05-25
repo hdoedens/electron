@@ -1,4 +1,5 @@
-function typeAhead($scope) {
+angular.module('typeAhead', [])
+.controller('TypeAheadController', function typeAhead($scope) {
   
   $scope.items = [
     'psalm',
@@ -30,4 +31,4 @@ function typeAhead($scope) {
     },
     getterSetter: true
   };
-}
+})
