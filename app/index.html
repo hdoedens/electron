@@ -27,12 +27,11 @@
           <form name="regelForm" class="css-form " novalidate>
             <div ng-repeat="regel in onderdelen track by $index">
               <div class="form-group has-feedback" show-validity>
-                <input 
+                <input
                   ng-model="regel"
                   name="regel{{$index}}"
                   type="text"
                   class="form-control"
-                  ng-pattern="/^$|gezang/"
                   ng-change="manageInputs($index, regel)"
                   placeholder="begin met typen"
                   uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"

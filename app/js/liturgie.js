@@ -33,7 +33,7 @@ angular.module('liturgie', [])
 
 				// apply the has-error class as soon as the user changes the text box contents
 				inputNgEl.bind('keyup', function() {
-					var valid = inputNgEl.val().match(/gezang/)
+					var valid = inputNgEl.val().match(/gezang|psalm/)
 					el.toggleClass('has-error', !valid && inputNgEl.val() != '');
 					el.toggleClass('has-success', valid);
 				})
