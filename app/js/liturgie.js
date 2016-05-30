@@ -1,6 +1,6 @@
 angular.module('liturgie', [])
 	.controller('LiturgieController', function liturgie($scope) {
-
+		$scope.valid = false;
 		$scope.onderdelen = ['']
 
 		$scope.manageInputs = function(index, regel) {
@@ -22,21 +22,24 @@ angular.module('liturgie', [])
 	.directive('showValidity', function() {
 		return {
 			restrict: 'A',
-			link: function(scope, el, attrs, formCtrl) {
-				// find the text box element, which has the 'name' attribute
-				var inputEl   = el[0].querySelector("[name]");
-				// convert the native text box element to an angular element
-				var inputNgEl = angular.element(inputEl);
-				// get the name on the text box so we know the property to check
-				// on the form controller
-				var inputName = inputNgEl.attr('name');
+			require: '?ngModel',
+			link: function(scope, element, attrs, ngModel) {
+				
+				element.on('blur keyup change', function() {
+					console.log(ngModel.$valid)
+					scope.$evalAsync(read);
+				});
+				read(); // initialize
 
-				// apply the has-error class as soon as the user changes the text box contents
-				inputNgEl.bind('keyup', function() {
-					var valid = inputNgEl.val().match(/gezang|psalm/)
-					el.toggleClass('has-error', !valid && inputNgEl.val() != '');
-					el.toggleClass('has-success', valid);
-				})
+				// Write data to the model
+				function read() {
+					var valid = element.val().match(/gezang|psalm/);
+					ngModel.$valid = valid;
+					ngModel.$invalid = !valid;
+					
+					element.parent().toggleClass('has-error', !valid && element.val() != '');
+					element.parent().toggleClass('has-success', valid);
+				}
 			}
 		}
 	})

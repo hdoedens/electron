@@ -26,7 +26,7 @@
           <h4>Invoer</h4>
           <form name="regelForm" class="css-form " novalidate>
             <div ng-repeat="regel in onderdelen track by $index">
-              <div class="form-group has-feedback" show-validity>
+              <div class="form-group has-feedback">
                 <input
                   ng-model="regel"
                   name="regel{{$index}}"
@@ -37,7 +37,7 @@
                   uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
                   typeahead-on-select="manageInputs($index, regel)"
                   ng-controller="TypeAheadController"
-                  >
+                  show-validity>
                   <span ng-show="regelForm.regel{{$index}}.$valid && regelForm.regel{{$index}}.$dirty" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                   <span ng-show="regelForm.regel{{$index}}.$invalid && regelForm.regel{{$index}}.$dirty" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   <!--
