@@ -1,6 +1,12 @@
 angular.module('liturgie', [])
-	.controller('LiturgieController', function liturgie($scope) {
-		$scope.valid = false;
+	.controller('LiturgieController', function($scope, $http) {
+
+		$scope.validationRules
+		$http.get('./resources/validation.json').then(function(response) {
+			$scope.validationRules = response.data;
+		});
+
+
 		$scope.onderdelen = ['']
 
 		$scope.manageInputs = function(index, regel) {
@@ -24,19 +30,22 @@ angular.module('liturgie', [])
 			restrict: 'A',
 			require: '?ngModel',
 			link: function(scope, element, attrs, ngModel) {
-				
+
 				element.on('blur keyup change', function() {
-					console.log(ngModel.$valid)
 					scope.$evalAsync(read);
 				});
 				read(); // initialize
 
 				// Write data to the model
 				function read() {
-					var valid = element.val().match(/gezang|psalm/);
+					var valid = false
+					console.log(scope.validationRules)
+					for(regex in scope.validationRules) {
+						valid = element.val().match(regex);
+					}
 					ngModel.$valid = valid;
 					ngModel.$invalid = !valid;
-					
+
 					element.parent().toggleClass('has-error', !valid && element.val() != '');
 					element.parent().toggleClass('has-success', valid);
 				}
