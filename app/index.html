@@ -37,9 +37,9 @@
                   uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
                   typeahead-on-select="manageInputs($index, regel)"
                   ng-controller="TypeAheadController"
-                  show-validity>
-                  <span ng-show="regelForm.regel{{$index}}.$valid && regelForm.regel{{$index}}.$dirty" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                  <span ng-show="regelForm.regel{{$index}}.$invalid && regelForm.regel{{$index}}.$dirty" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  test-validity>
+                  <span ng-show="regelForm.regel{{$index}}.valid && regelForm.regel{{$index}}.$dirty" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="regelForm.regel{{$index}}.invalid && regelForm.regel{{$index}}.$dirty" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   <!--
                   -->
                 </div>

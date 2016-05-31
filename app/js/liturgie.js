@@ -1,9 +1,11 @@
 angular.module('liturgie', [])
 	.controller('LiturgieController', function($scope, $http) {
 
-		$scope.validationRules
+		$scope.validationRules = []
 		$http.get('./resources/validation.json').then(function(response) {
-			$scope.validationRules = response.data;
+			for(n in response.data) {
+				$scope.validationRules.push(new RegExp(response.data[n]));
+			}
 		});
 
 
@@ -25,7 +27,7 @@ angular.module('liturgie', [])
 		}
 
 	})
-	.directive('showValidity', function() {
+	.directive('testValidity', function() {
 		return {
 			restrict: 'A',
 			require: '?ngModel',
@@ -39,12 +41,13 @@ angular.module('liturgie', [])
 				// Write data to the model
 				function read() {
 					var valid = false
-					console.log(scope.validationRules)
-					for(regex in scope.validationRules) {
-						valid = element.val().match(regex);
+					for(n in scope.validationRules) {
+						valid = scope.validationRules[n].test(element.val())
+						if(valid)
+							break;
 					}
-					ngModel.$valid = valid;
-					ngModel.$invalid = !valid;
+					ngModel.valid = valid;
+					ngModel.invalid = !valid;
 
 					element.parent().toggleClass('has-error', !valid && element.val() != '');
 					element.parent().toggleClass('has-success', valid);
