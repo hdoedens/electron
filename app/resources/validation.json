@@ -1,4 +1,4 @@
 [
-	"gezang",
-	"psalm"
+	"^[Gg]ezang",
+	"^[Pp]salm"
 ]

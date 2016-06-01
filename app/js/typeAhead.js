@@ -1,28 +1,10 @@
 angular.module('typeAhead', [])
-.controller('TypeAheadController', function typeAhead($scope) {
+.controller('TypeAheadController', function ($scope, $http) {
   
-  $scope.items = [
-    'psalm',
-    'gezang',
-    'liedboek',
-    'genesis',
-    'exodus',
-    'leviticus',
-    'numeri',
-    'deuteronomium',
-    'jozua',
-    'richteren',
-    'ruth',
-    '1 samuel',
-    '2 samuel',
-    '1 koningen',
-    '2 koningen',
-    '1 kronieken',
-    '2 kronieken',
-    'ezra',
-    'nehemia',
-    'ester',
-  ];
+  $scope.items = [];
+  $http.get('./resources/type-ahead.json').then(function(response) {
+    $scope.items = response.data;
+  })
 
   $scope.modelOptions = {
     debounce: {
