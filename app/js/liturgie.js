@@ -7,22 +7,24 @@ angular.module('liturgie', [])
                 $scope.validationRules.push(new RegExp(response.data[n]));
             }
         });
-
-        $scope.setTextOfItem = function (index) {
+        
+        $scope.setOnderdeelDetails = function(index) {
             $scope.onderdelen[index].tekst = $scope.onderdelen[index].regel
+            $scope.onderdelen[index].type = "music"
         }
 
-        $scope.unsetTextOfItem = function (index) {
+        $scope.clearOnderdeelDetails = function (index) {
             $scope.onderdelen[index].tekst = ''
+            $scope.onderdelen[index].type = ''
         }
 
-        $scope.onderdelen = [{regel:"", tekst:""}]
+        $scope.onderdelen = [{regel:"", tekst:"", type:"unknown"}]
 
         $scope.manageInputs = function (index, onderdeel) {
 
             // lege input toevoegen
             if (index == $scope.onderdelen.length - 1 && onderdeel.regel != '') {
-                $scope.onderdelen.push({regel:"", tekst:""})
+                $scope.onderdelen.push({regel:"", tekst:"", type:"unknown"})
             }
 
             // lege input verwijderen
@@ -55,9 +57,9 @@ angular.module('liturgie', [])
                         }
                     }
                     if(valid)
-                        scope.setTextOfItem(attrs.id);
+                        scope.setOnderdeelDetails(attrs.id);
                     else
-                        scope.unsetTextOfItem(attrs.id);
+                        scope.clearOnderdeelDetails(attrs.id);
                     ngModel.valid = valid;
                     ngModel.invalid = !valid;
 

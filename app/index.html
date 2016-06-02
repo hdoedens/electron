@@ -26,7 +26,9 @@
             <div ng-repeat="onderdeel in onderdelen track by $index">
               <div class="form-group has-feedback">
                 <div class="input-group">
-                  <span class="input-group-addon" uib-popover="{{onderdeel.tekst}}" popover-trigger="mouseenter"><i class="fa fa-eye"></i></span>
+                  <span class="input-group-addon">
+                    <i ng-show="regelForm.onderdeel{{$index}}.type == 'unknown'" class="fa fa-question"></i>
+                  </span>
                   <input
                     ng-model="onderdeel.regel"
                     name="onderdeel{{$index}}"
