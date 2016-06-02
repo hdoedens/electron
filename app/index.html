@@ -26,24 +26,25 @@
         <div class="col-md-4">
           <h4>Invoer</h4>
           <form name="regelForm" class="css-form" novalidate>
-            <div ng-repeat="regel in onderdelen track by $index">
+            <div ng-repeat="onderdeel in onderdelen track by $index">
               <div class="form-group has-feedback">
                 <div class="input-group">
-                  <span class="input-group-addon" uib-popover="{{regel}}" popover-trigger="mouseenter"><i class="fa fa-eye"></i></span>
+                  <span class="input-group-addon" uib-popover="{{onderdeel.tekst}}" popover-trigger="mouseenter"><i class="fa fa-eye"></i></span>
                   <input
-                    ng-model="regel"
-                    name="regel{{$index}}"
+                    ng-model="onderdeel.regel"
+                    name="onderdeel{{$index}}"
+                    id="{{$index}}"
                     type="text"
                     class="form-control"
-                    ng-change="manageInputs($index, regel)"
+                    ng-change="manageInputs($index, onderdeel)"
                     placeholder="begin met typen"
                     uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
-                    typeahead-on-select="manageInputs($index, regel)"
+                    typeahead-on-select="manageInputs($index, onderdeel)"
                     ng-controller="TypeAheadController"
                     test-validity
                   >
-                  <span ng-show="regelForm.regel{{$index}}.valid && regelForm.regel{{$index}}.$dirty" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                  <span ng-show="regelForm.regel{{$index}}.invalid && regelForm.regel{{$index}}.$dirty" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="regelForm.onderdeel{{$index}}.valid && regelForm.onderdeel{{$index}}.$dirty" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="regelForm.onderdeel{{$index}}.invalid && regelForm.onderdeel{{$index}}.$dirty" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 </div>
               </div>
             </div>

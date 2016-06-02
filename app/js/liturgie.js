@@ -1,57 +1,62 @@
 angular.module('liturgie', [])
-	.controller('LiturgieController', function($scope, $http) {
+    .controller('LiturgieController', function ($scope, $http) {
 
-		$scope.validationRules = []
-		$http.get('./resources/validation.json').then(function(response) {
-			for(n in response.data) {
-				$scope.validationRules.push(new RegExp(response.data[n]));
-			}
-		});
+        $scope.validationRules = []
+        $http.get('./resources/validation.json').then(function (response) {
+            for (n in response.data) {
+                $scope.validationRules.push(new RegExp(response.data[n]));
+            }
+        });
 
+        $scope.getTekst = function (index) {
+            console.log('haal tekst op voor onderdeel: ' + index);
+        }
 
-		$scope.onderdelen = ['']
+        $scope.onderdelen = [{regel:"", tekst:"foobar"}]
 
-		$scope.manageInputs = function(index, regel) {
+        $scope.manageInputs = function (index, onderdeel) {
 
-			// lege input toevoegen
-			if(index == $scope.onderdelen.length -1 && regel != '') {
-				$scope.onderdelen.push('')
-			}
+            // lege input toevoegen
+            if (index == $scope.onderdelen.length - 1 && onderdeel.regel != '') {
+                $scope.onderdelen.push({regel:"", tekst:"foobar"})
+            }
 
-			// lege input verwijderen
-			if(index == $scope.onderdelen.length -2 && regel == '' && $scope.onderdelen[$scope.onderdelen.length-1] == '') {
-				$scope.onderdelen.pop()
-			}
+            // lege input verwijderen
+            if (index == $scope.onderdelen.length - 2 && onderdeel.regel == '' && $scope.onderdelen[$scope.onderdelen.length - 1] == '') {
+                $scope.onderdelen.pop()
+            }
 
-			$scope.onderdelen[index] = regel;
-		}
+            $scope.onderdelen[index].regel = onderdeel.regel;
+        }
 
-	})
-	.directive('testValidity', function() {
-		return {
-			restrict: 'A',
-			require: '?ngModel',
-			link: function(scope, element, attrs, ngModel) {
+    })
+    .directive('testValidity', function () {
+        return {
+            restrict: 'A',
+            require: '?ngModel',
+            link: function (scope, element, attrs, ngModel) {
 
-				element.on('blur keyup change', function() {
-					scope.$evalAsync(read);
-				});
-				read(); // initialize
+                element.on('blur keyup change', function () {
+                    scope.$evalAsync(read);
+                });
+                read(); // initialize
 
-				// Write data to the model
-				function read() {
-					var valid = false
-					for(n in scope.validationRules) {
-						valid = scope.validationRules[n].test(element.val())
-						if(valid)
-							break;
-					}
-					ngModel.valid = valid;
-					ngModel.invalid = !valid;
+                // Write data to the model
+                function read() {
+                    var valid = false
+                    for (n in scope.validationRules) {
+                        valid = scope.validationRules[n].test(element.val())
+                        if (valid) {
+                            scope.getTekst(attrs.id);
+                            break;
+                        }
+                    }
+                    ngModel.valid = valid;
+                    ngModel.invalid = !valid;
 
-					element.parent().toggleClass('has-error', !valid && element.val() != '');
-					element.parent().toggleClass('has-success', valid);
-				}
-			}
-		}
-	})
+                    element.parent().toggleClass('has-error', !valid && element.val() != '');
+                    element.parent().toggleClass('has-success', valid);
+                }
+            }
+        }
+    })
