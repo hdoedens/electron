@@ -1,6 +1,6 @@
 {
-  "name": "poke-geek",
+  "name": "liedbase",
   "version": "0.0.1",
-  "description": "An image display try",
+  "description": "A liturgy tekst generator",
   "main": "main.js"
 }

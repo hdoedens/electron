@@ -20,9 +20,6 @@
     <div class="container-fluid" ng-app="pokegeek">
 
       <div class="row" ng-controller="LiturgieController">
-        <div class="col-md-3">
-          <button type="button" class="btn btn-default">tekst1</button>
-        </div>
         <div class="col-md-4">
           <h4>Invoer</h4>
           <form name="regelForm" class="css-form" novalidate>
@@ -52,6 +49,13 @@
               <button type="submit" class="btn btn-success" ng-disabled="regelForm.$invalid">Verstuur</button>
             </div>
           </form>
+        </div>
+        
+        <div class="col-md-8">
+          <h4>Resultaat</h4>
+          <div ng-repeat="onderdeel in onderdelen">
+            <span ng-bind="onderdeel.tekst"></span>
+          </div>
         </div>
       </div>
 
