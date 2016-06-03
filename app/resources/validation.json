@@ -1,4 +1,28 @@
 [
-	"^[Gg]ezang",
-	"^[Pp]salm"
+	{
+		"onderdeel": "fa-music",
+		"regexen": [
+			"^[Gg]ezang [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
+			"^[Pp]salm [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
+			"^[lL]ied([bB]oek)? [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
+			"^[oO]pwekking? [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$"
+		]
+	},
+	{
+		"onderdeel": "fa-video-camera",
+		"regexen": [
+			"^[Vv]ideo$"
+		]
+	},
+	{
+		"onderdeel": "fa-circle",
+		"regexen": [
+		]
+	},
+	{
+		"onderdeel": "fa-black-tie",
+		"regexen": [
+			"^[vV]oorganger|[dD]ominee|[wW]el[ck]om"
+		]
+	}
 ]
