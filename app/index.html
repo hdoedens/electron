@@ -21,13 +21,20 @@
 
       <div class="row" ng-controller="LiturgieController">
         <div class="col-md-4">
-          <h4>Invoer</h4>
+          <form name="rawInputForm" class="css-form" novalidate>
+            <div class="form-group">
+              <h4>Volledige liturie</h4>
+              <textarea id="rawInput" class="form-control" placeholder="Plak hier de volledige liturgie"></textarea>
+            </div>
+        </div>
+        <div class="col-md-4">
+          <h4>Afzonderlijke onderdelen</h4>
           <form name="regelForm" class="css-form" novalidate>
             <div ng-repeat="onderdeel in onderdelen track by $index">
               <div class="form-group has-feedback">
                 <div class="input-group">
                   <span class="input-group-addon">
-                    <i class="fa fa-{{onderdeel.icon}}"></i>
+                    <i class="fa {{onderdeel.icon}}"></i>
                   </span>
                   <input
                     ng-model="onderdeel.regel"
@@ -53,7 +60,7 @@
           </form>
         </div>
         
-        <div class="col-md-8">
+        <div class="col-md-4">
           <h4>Resultaat</h4>
           <div ng-repeat="onderdeel in onderdelen">
             <span ng-bind="onderdeel.tekst"></span>
