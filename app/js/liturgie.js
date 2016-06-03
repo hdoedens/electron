@@ -10,21 +10,21 @@ angular.module('liturgie', [])
         
         $scope.setOnderdeelDetails = function(index) {
             $scope.onderdelen[index].tekst = $scope.onderdelen[index].regel
-            $scope.onderdelen[index].type = "music"
+            $scope.onderdelen[index].icon = "music"
         }
 
         $scope.clearOnderdeelDetails = function (index) {
             $scope.onderdelen[index].tekst = ''
-            $scope.onderdelen[index].type = ''
+            $scope.onderdelen[index].icon = 'question'
         }
 
-        $scope.onderdelen = [{regel:"", tekst:"", type:"unknown"}]
+        $scope.onderdelen = [{regel:"", tekst:"", icon:"question"}]
 
         $scope.manageInputs = function (index, onderdeel) {
 
             // lege input toevoegen
             if (index == $scope.onderdelen.length - 1 && onderdeel.regel != '') {
-                $scope.onderdelen.push({regel:"", tekst:"", type:"unknown"})
+                $scope.onderdelen.push({regel:"", tekst:"", icon:"question"})
             }
 
             // lege input verwijderen

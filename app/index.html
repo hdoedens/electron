@@ -27,7 +27,7 @@
               <div class="form-group has-feedback">
                 <div class="input-group">
                   <span class="input-group-addon">
-                    <i ng-show="regelForm.onderdeel{{$index}}.type == 'unknown'" class="fa fa-question"></i>
+                    <i class="fa fa-{{onderdeel.icon}}"></i>
                   </span>
                   <input
                     ng-model="onderdeel.regel"
