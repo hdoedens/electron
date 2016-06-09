@@ -1,28 +1,52 @@
 [
 	{
-		"onderdeel": "fa-music",
+		"icon": "fa-music",
 		"regexen": [
 			"^[Gg]ezang [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
 			"^[Pp]salm [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
 			"^[lL]ied([bB]oek)? [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
-			"^[oO]pwekking? [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$"
+			"^[oO]pwekking? [\\d]+[abcd]? *$"
 		]
 	},
 	{
-		"onderdeel": "fa-video-camera",
+		"icon": "fa-video-camera",
 		"regexen": [
-			"^[Vv]ideo$"
+			"^[Vv]ideo *$"
 		]
 	},
 	{
-		"onderdeel": "fa-circle",
+		"icon": "fa-circle",
 		"regexen": [
+			"([eE]inde)?.*[mM]orgendienst",
+			"([eE]inde)?.*[mM]iddagdienst",
+			"([gG]ebed)|([bB]idden)|([dD]anken)|([dD]ankgebed)",
+			"^[wW]et *$",
+			"^[pP]reek *$",
+			"^[Aa]genda *$"
 		]
 	},
 	{
-		"onderdeel": "fa-black-tie",
+		"icon": "fa-black-tie",
 		"regexen": [
-			"^[vV]oorganger|[dD]ominee|[wW]el[ck]om"
+			"^[vV]oorganger|[dD]ominee|[wW]el[ck]om *$"
+		]
+	},
+	{
+		"icon": "fa-hand-paper-o",
+		"regexen": [
+			"^[vV]otum *$"
+		]
+	},
+	{
+		"icon": "fa-trash",
+		"regexen": [
+			"^[sS]choonmaak *$"
+		]
+	},
+	{
+		"icon": "fa-eur",
+		"regexen": [
+			"^([cC]|[kK])olle[ck]te *$"
 		]
 	}
 ]

@@ -4,15 +4,26 @@ angular.module('liturgie', [])
 		$scope.validationRules = []
 		$http.get('./resources/validation.json').then(function (response) {
 			for (n in response.data) {
-				for (i in response.data[n].regexen) {
-					$scope.validationRules.push(new RegExp(response.data[n].regexen[i]));
-				}
+				$scope.validationRules.push(response.data[n]);
 			}
 		});
 
+		$scope.isValid = function (id, value) {
+			for (n in $scope.validationRules) {
+				for (i in $scope.validationRules[n].regexen) {
+					valid = new RegExp($scope.validationRules[n].regexen[i]).test(value)
+					if (valid) {
+						// gna gna, set the icon here
+						$scope.onderdelen[id].icon = $scope.validationRules[n].icon;
+						return true;
+					}
+				}
+			}
+		}
+
 		$scope.setOnderdeelDetails = function (index) {
 			$scope.onderdelen[index].tekst = $scope.onderdelen[index].regel
-			$scope.onderdelen[index].icon = 'fa-music'
+			// $scope.onderdelen[index].icon = 'fa-music'
 		}
 
 		$scope.clearOnderdeelDetails = function (index) {
@@ -51,13 +62,7 @@ angular.module('liturgie', [])
 
 				// Write data to the model
 				function read() {
-					var valid = false
-					for (n in scope.validationRules) {
-						valid = scope.validationRules[n].test(element.val())
-						if (valid) {
-							break;
-						}
-					}
+					var valid = scope.isValid(attrs.id, element.val())
 					if (valid)
 						scope.setOnderdeelDetails(attrs.id);
 					else
