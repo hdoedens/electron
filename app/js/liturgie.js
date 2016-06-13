@@ -3,15 +3,9 @@ angular.module('liturgie', ['pouchdb'])
 
 		var db = pouchDB('liturgie');
 
-		var doc = {
-			"_id": "2132",
-			"gezang": 13,
-			"vers": 2,
-			"tekst": "er was eens een trlalalala"
-		};
-		db.put(doc);
-
 		$scope.validationRules = []
+		$scope.onderdelen = [{ regel: "", tekst: "", icon: "fa-question" }]
+		
 		$http.get('./resources/validation.json').then(function (response) {
 			for (n in response.data) {
 				$scope.validationRules.push(response.data[n]);
@@ -32,28 +26,23 @@ angular.module('liturgie', ['pouchdb'])
 		}
 
 		$scope.setOnderdeelDetails = function (index) {
-			db.get('2132').then(function(res) {
+			db.get('2133').then(function(res) {
 				// Update UI (almost) instantly
 				$scope.onderdelen[index].tekst = JSON.stringify(res.tekst);
 			})
 			.catch(function(err) {
-				$scope.err = err;
+				if(err.status == 404)
+					$scope.onderdelen[index].tekst = "Niets gevonden voor: " + $scope.onderdelen[index].regel;
 			})
 			.finally(function() {
 				$scope.got = true;
 			});
-
-			// db.get('2132').then(function (doc) {
-			// 	$scope.onderdelen[index].tekst = JSON.stringify(doc.tekst);
-			// })
 		}
 
 		$scope.clearOnderdeelDetails = function (index) {
 			$scope.onderdelen[index].tekst = ''
 			$scope.onderdelen[index].icon = 'fa-question'
 		}
-
-		$scope.onderdelen = [{ regel: "", tekst: "", icon: "fa-question" }]
 
 		$scope.manageInputs = function (index, onderdeel) {
 
