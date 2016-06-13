@@ -3,6 +3,8 @@ const electron = require('electron')
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
+// use pouchDB
+var PouchDB = require('pouchdb');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -10,13 +12,13 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({x: 100, y: 100, width: 1600, height: 900})
+  mainWindow = new BrowserWindow({x: 100, y: 100, width: 1800, height: 1000})
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html')
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

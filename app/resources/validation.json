@@ -21,14 +21,19 @@
 			"([eE]inde)?.*[mM]iddagdienst",
 			"([gG]ebed)|([bB]idden)|([dD]anken)|([dD]ankgebed)",
 			"^[wW]et *$",
-			"^[pP]reek *$",
-			"^[Aa]genda *$"
+			"^[pP]reek *$"
 		]
 	},
 	{
 		"icon": "fa-black-tie",
 		"regexen": [
 			"^[vV]oorganger|[dD]ominee|[wW]el[ck]om *$"
+		]
+	},
+	{
+		"icon": "fa-calendar",
+		"regexen": [
+			"^[Aa]genda *$"
 		]
 	},
 	{

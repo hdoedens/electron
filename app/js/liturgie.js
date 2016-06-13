@@ -1,5 +1,15 @@
-angular.module('liturgie', [])
-	.controller('LiturgieController', function ($scope, $http) {
+angular.module('liturgie', ['pouchdb'])
+	.controller('LiturgieController', function ($scope, $http, pouchDB) {
+
+		var db = pouchDB('liturgie');
+
+		var doc = {
+			"_id": "2132",
+			"gezang": 13,
+			"vers": 2,
+			"tekst": "er was eens een trlalalala"
+		};
+		db.put(doc);
 
 		$scope.validationRules = []
 		$http.get('./resources/validation.json').then(function (response) {
@@ -22,8 +32,20 @@ angular.module('liturgie', [])
 		}
 
 		$scope.setOnderdeelDetails = function (index) {
-			$scope.onderdelen[index].tekst = $scope.onderdelen[index].regel
-			// $scope.onderdelen[index].icon = 'fa-music'
+			db.get('2132').then(function(res) {
+				// Update UI (almost) instantly
+				$scope.onderdelen[index].tekst = JSON.stringify(res.tekst);
+			})
+			.catch(function(err) {
+				$scope.err = err;
+			})
+			.finally(function() {
+				$scope.got = true;
+			});
+
+			// db.get('2132').then(function (doc) {
+			// 	$scope.onderdelen[index].tekst = JSON.stringify(doc.tekst);
+			// })
 		}
 
 		$scope.clearOnderdeelDetails = function (index) {
