@@ -21,7 +21,8 @@
 			"([eE]inde)?.*[mM]iddagdienst",
 			"([gG]ebed)|([bB]idden)|([dD]anken)|([dD]ankgebed)",
 			"^[wW]et *$",
-			"^[pP]reek *$"
+			"^[pP]reek *$",
+			"^(gezongen)? *amen *$"
 		]
 	},
 	{

@@ -5,7 +5,7 @@ angular.module('liturgie', ['pouchdb'])
 
 		$scope.validationRules = []
 		$scope.onderdelen = [{ regel: "", tekst: "", icon: "fa-question" }]
-		
+
 		$http.get('./resources/validation.json').then(function (response) {
 			for (n in response.data) {
 				$scope.validationRules.push(response.data[n]);
@@ -26,7 +26,16 @@ angular.module('liturgie', ['pouchdb'])
 		}
 
 		$scope.setOnderdeelDetails = function (index) {
-			db.get('2133').then(function(res) {
+			// get the regel. It will look like <songtype> <songnumber> [:<verse>[,<verse>]*]
+			// examples: 
+			// psalm 2:34
+			// gezang 45
+			// lied 4:3,5
+
+			// strip the regel from spaces
+			// split everything after the : on ,
+			
+			db.get('psalm1:1').then(function(res) {
 				// Update UI (almost) instantly
 				$scope.onderdelen[index].tekst = JSON.stringify(res.tekst);
 			})
