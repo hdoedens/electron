@@ -4,16 +4,17 @@
   <head>
     <meta charset="UTF-8">
     <title>Poke Geek</title>
-    <script src="../node_modules/angular/angular.min.js" type="text/javascript"></script>
-    <script src="../node_modules/angular-route/angular-route.min.js" type="text/javascript"></script>
-    <script src="../node_modules/angular-resource/angular-resource.min.js" type="text/javascript"></script>
+    <script src="../node_modules/angular/angular.js" type="text/javascript"></script>
+    <script src="../node_modules/angular-route/angular-route.js" type="text/javascript"></script>
+    <script src="../node_modules/angular-resource/angular-resource.js" type="text/javascript"></script>
     <script src="../node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js" type="text/javascript"></script>
-    <script src="../node_modules/pouchdb/dist/pouchdb.min.js"></script>
-    <script src="../node_modules/angular-pouchdb/dist/angular-pouchdb.min.js"></script>
+    <script src="../node_modules/pouchdb/dist/pouchdb.js"></script>
+    <script src="../node_modules/angular-pouchdb/dist/angular-pouchdb.js"></script>
+    <!--<script src="../node_modules/pouchdb-find/dist/pouchdb.find.js"></script>-->
     <script src="./js/typeAhead.js" type="text/javascript"></script>
     <script src="./js/liturgie.js" type="text/javascript"></script>
     <script src="./js/database.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="./css/app.css" />
   </head>
@@ -82,9 +83,7 @@
     </div>
 
     <script>
-      angular.module('pokegeek', ['ui.bootstrap', 'ngRoute', 'ngResource', 'liturgie', 'database', 'typeAhead', 'pouchdb']).service('service', function(pouchDB) {
-        var db = pouchDB('liturgie');
-      });
+      angular.module('pokegeek', ['ui.bootstrap', 'ngRoute', 'ngResource', 'liturgie', 'database', 'typeAhead', 'pouchdb'])
     </script>
 
   </body>

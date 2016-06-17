@@ -5,6 +5,7 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 // use pouchDB
 var PouchDB = require('pouchdb');
+// PouchDB.plugin(require('pouchdb-find'));
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

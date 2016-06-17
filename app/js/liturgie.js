@@ -1,7 +1,8 @@
 angular.module('liturgie', ['pouchdb'])
-	.controller('LiturgieController', function ($scope, $http, pouchDB) {
+	.controller('LiturgieController', function ($scope, $http, pouchDB, pouchDBDecorators) {
 
 		var db = pouchDB('liturgie');
+		db.find = pouchDBDecorators.qify(db.find);
 
 		$scope.validationRules = []
 		$scope.onderdelen = [{ regel: "", tekst: "", icon: "fa-question" }]
@@ -35,11 +36,18 @@ angular.module('liturgie', ['pouchdb'])
 			// strip the regel from spaces
 			// split everything after the : on ,
 			
-			db.get('psalm1:1').then(function(res) {
+			// db.get('psalm1:1').then(function(res) {
+			// 	// Update UI (almost) instantly
+			// 	$scope.onderdelen[index].tekst = JSON.stringify(res.tekst);
+			// })
+			db.find({
+				selector: {vers: 3}	
+			}).then(function(res) {
 				// Update UI (almost) instantly
 				$scope.onderdelen[index].tekst = JSON.stringify(res.tekst);
 			})
 			.catch(function(err) {
+				console.log(err)
 				if(err.status == 404)
 					$scope.onderdelen[index].tekst = "Niets gevonden voor: " + $scope.onderdelen[index].regel;
 			})
