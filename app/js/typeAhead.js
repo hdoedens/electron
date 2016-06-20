@@ -1,5 +1,4 @@
-angular.module('typeAhead', [])
-.controller('TypeAheadController', function ($scope, $http) {
+angular.module('typeAhead', []).controller('TypeAheadController', function ($scope, $http) {
   
   $scope.items = [];
   $http.get('./resources/type-ahead.json').then(function(response) {
