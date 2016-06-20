@@ -1,9 +1,8 @@
 angular.module('liturgieApp')
-  .factory('dbService', ['pouchdb', function (pouchDB, pouchDecorators) {
+  .factory('dbService', function (pouchDB, pouchDBDecorators) {
 
     var db = pouchDB('liturgie')
-
-    db.find = pouchDecorators.qify(db.find);
+    db.find = pouchDBDecorators.qify(db.find);
 
     db.createIndex({
       index: {
@@ -12,13 +11,11 @@ angular.module('liturgieApp')
       }
     });
 
-    $scope.update = function () {
-      var doc = {
-        "_id": "gezang_13_1",
-        "type": 'gezang',
-        "vers": 1,
-        "tekst": "gezang dertien vers een"
-      }
+    var doc = {
+      "_id": "gezang_13_1",
+      "type": 'gezang',
+      "vers": 1,
+      "tekst": "gezang dertien vers een"
     }
 
     db.put(doc).then(function (response) {
@@ -29,4 +26,4 @@ angular.module('liturgieApp')
 
     return db;
 
-  }])
+  })
