@@ -1,7 +1,7 @@
 angular.module('liturgieApp').controller('LiturgieController', function ($scope, $http, dbService) {
 
 		$scope.validationRules = []
-		$scope.onderdelen = [{ regel: "", tekst: "", icon: "fa-question" }]
+		$scope.onderdelen = [{ regel: "", verzen: [], icon: "fa-question" }]
 
 		$http.get('./resources/validation.json').then(function (response) {
 			for (n in response.data) {
@@ -37,16 +37,21 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			// 	$scope.onderdelen[index].tekst = JSON.stringify(res.tekst);
 			// })
 			dbService.find({
-				selector: {type: 'gezang'}	
+				selector: {
+					book: 'gezang',
+					vers: { $gt: 1 }
+				}	
 			}).then(function(res) {
 				// Update UI (almost) instantly
-				$scope.onderdelen[index].tekst = JSON.stringify(res.tekst);
-				console.log('tekst: ' + JSON.stringify(res['docs'][0].tekst))
+				$scope.onderdelen[index].verzen = []
+				for(i in res['docs']) {
+					$scope.onderdelen[index].verzen.push(JSON.stringify(res['docs'][i].tekst))
+				}
 			})
 			.catch(function(err) {
 				console.log(err)
 				if(err.status == 404)
-					$scope.onderdelen[index].tekst = "Niets gevonden voor: " + $scope.onderdelen[index].regel;
+					$scope.onderdelen[index].verzen.push("Niets gevonden voor: " + $scope.onderdelen[index].regel)
 			})
 			.finally(function() {
 				$scope.got = true;
@@ -54,7 +59,7 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		}
 
 		$scope.clearOnderdeelDetails = function (index) {
-			$scope.onderdelen[index].tekst = ''
+			$scope.onderdelen[index].verzen = []
 			$scope.onderdelen[index].icon = 'fa-question'
 		}
 
@@ -62,7 +67,7 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 
 			// lege input toevoegen
 			if (index == $scope.onderdelen.length - 1 && onderdeel.regel != '') {
-				$scope.onderdelen.push({ regel: "", tekst: "", icon: "fa-question" })
+				$scope.onderdelen.push({ regel: "", verzen: [], icon: "fa-question" })
 			}
 
 			// lege input verwijderen
