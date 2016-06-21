@@ -1,7 +1,7 @@
 angular.module('liturgieApp')
   .factory('dbService', function (pouchDB, pouchDBDecorators) {
 
-    var db = pouchDB('liturgie')
+    var db = pouchDB('liturgieDB')
     db.find = pouchDBDecorators.qify(db.find);
 
     db.createIndex({

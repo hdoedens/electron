@@ -37,10 +37,11 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			// 	$scope.onderdelen[index].tekst = JSON.stringify(res.tekst);
 			// })
 			dbService.find({
-				selector: {vers: 3}	
+				selector: {type: 'gezang'}	
 			}).then(function(res) {
 				// Update UI (almost) instantly
 				$scope.onderdelen[index].tekst = JSON.stringify(res.tekst);
+				console.log('tekst: ' + JSON.stringify(res['docs'][0].tekst))
 			})
 			.catch(function(err) {
 				console.log(err)
