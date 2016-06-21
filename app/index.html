@@ -69,7 +69,8 @@
           <h4>Resultaat</h4>
           <div ng-repeat="onderdeel in onderdelen">
             <span ng-repeat="vers in onderdeel.verzen">
-              <span ng-bind="vers"></span>
+              <div><strong ng-bind="vers.id"></strong></div>
+              <div ng-bind="vers.tekst"></div>
             </span>
           </div>
         </div>

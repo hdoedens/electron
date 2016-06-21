@@ -45,13 +45,13 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 				// Update UI (almost) instantly
 				$scope.onderdelen[index].verzen = []
 				for(i in res['docs']) {
-					$scope.onderdelen[index].verzen.push(JSON.stringify(res['docs'][i].tekst))
+					$scope.onderdelen[index].verzen.push({id:'gezang 13', tekst:res['docs'][i].tekst})
 				}
 			})
 			.catch(function(err) {
 				console.log(err)
 				if(err.status == 404)
-					$scope.onderdelen[index].verzen.push("Niets gevonden voor: " + $scope.onderdelen[index].regel)
+					$scope.onderdelen[index].verzen.push({tekst: "Niets gevonden voor: " + $scope.onderdelen[index].regel})
 			})
 			.finally(function() {
 				$scope.got = true;
