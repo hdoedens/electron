@@ -5,7 +5,7 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 // use pouchDB
 var PouchDB = require('pouchdb');
-// PouchDB.plugin(require('pouchdb-find'));
+var log = require('electron-log')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -13,7 +13,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({x: 100, y: 100, width: 1800, height: 1000})
+  mainWindow = new BrowserWindow({x:0, y:0, width: 1920, height: 1280})
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html')
