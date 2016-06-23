@@ -52,8 +52,13 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			}
 			console.log(verseLimits)
 			
+			// get individual verses to know which ones to keep
 			// split everything after the : on ,
-			
+			var keep = []
+			if(line.indexOf(',') != -1) {
+				keep = line.match(/:(.*)/)[1].split(',')
+			}
+			console.log(keep)
 			
 			// db.get('psalm1:1').then(function(res) {
 			// 	// Update UI (almost) instantly
