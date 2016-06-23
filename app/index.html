@@ -67,12 +67,16 @@
         
         <div class="col-md-4">
           <h4>Resultaat</h4>
-          <div ng-repeat="onderdeel in onderdelen">
-            <span ng-repeat="vers in onderdeel.verzen">
-              <div><strong ng-bind="vers.id"></strong></div>
-              <div ng-bind="vers.tekst"></div>
-            </span>
-          </div>
+          <table class="table table-striped">
+            <tr ng-repeat="onderdeel in onderdelen">
+              <td>
+                <div ng-repeat="vers in onderdeel.verzen">
+                  <div><strong><span ng-bind="vers.id"></span>: <span ng-bind="vers.activeVerse"></span></strong></div>
+                  <div ng-bind="vers.tekst"></div>
+                </div>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
 

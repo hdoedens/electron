@@ -7,26 +7,29 @@ angular.module('liturgieApp')
 
     db.createIndex({
       index: {
-        fields: ['type'],
-        name: 'type_index'
+        fields: ['book', 'chapter','verse'],
+        name: 'book_chapter_verse_index'
       }
     });
 
     var docs = [{
       "_id": "gezang_13_1",
       "book": 'gezang',
-      "vers": 1,
-      "tekst": "gezang dertien vers een"
+      "chapter": 13,
+      "verse": 1,
+      "text": "gezang dertien vers een"
     }, {
       "_id": "gezang_13_2",
       "book": 'gezang',
-      "vers": 2,
-      "tekst": "gezang dertien vers twee"
+      "chapter": 13,
+      "verse": 2,
+      "text": "gezang dertien vers twee"
     }, {
       "_id": "gezang_13_3",
       "book": 'gezang',
-      "vers": 3,
-      "tekst": "gezang dertien vers drie"
+      "chapter": 13,
+      "verse": 3,
+      "text": "gezang dertien vers drie"
     }]
 
     db.bulkDocs(docs).then(function (response) {

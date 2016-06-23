@@ -28,9 +28,32 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			// psalm 2:34
 			// gezang 45
 			// lied 4:3,5
-
+			var line = $scope.onderdelen[index].regel
+			console.log('original: ' + line)
+				
 			// strip the regel from spaces
+			line = line.trim()
+			console.log('trimmed: ' + line)
+			
+			// get the book. i.e. the part before the first space
+			var book = line.match(/^([123 ]{0,2}[a-zA-Z0-9]*)[ ]+(.*)[:.*]?$/)[1].trim()
+			console.log('book: ' + book)
+			
+			// get the chapter. i.e. the word after the first space and before an optional :
+			var chapter = line.match(/^[123 ]{0,2}[a-zA-Z0-9]*[ ]+(.*)[:.*]?$/)[1]
+			console.log('chapter: ' + chapter)
+			
+			// get first and last verse
+			var verseLimits = {min:-1, max:-1}
+			try {
+				verseLimits = {min:line.match(/: *([\d]+).*$/)[1], max:line.match(/(\d+)\D*$/)[1]}
+			} catch(error) {
+				console.log('verseLimits could not be determined; using defaults')
+			}
+			console.log(verseLimits)
+			
 			// split everything after the : on ,
+			
 			
 			// db.get('psalm1:1').then(function(res) {
 			// 	// Update UI (almost) instantly
@@ -45,7 +68,8 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 				// Update UI (almost) instantly
 				$scope.onderdelen[index].verzen = []
 				for(i in res['docs']) {
-					$scope.onderdelen[index].verzen.push({id:'gezang 13', tekst:res['docs'][i].tekst})
+					var currentDoc = res['docs'][i]
+					$scope.onderdelen[index].verzen.push({id:'gezang 13', tekst:currentDoc.tekst, activeVerse:currentDoc.vers})
 				}
 			})
 			.catch(function(err) {
