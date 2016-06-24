@@ -1,5 +1,5 @@
-angular.module('liturgieApp').controller('LiturgieController', function ($scope, $http, dbService, $log) {
-
+angular.module('liturgieApp').controller('LiturgieController', function ($scope, $http, dbService, log) {
+		
 		$scope.validationRules = []
 		$scope.onderdelen = [{ regel: "", verzen: [], icon: "fa-question" }]
 
@@ -23,35 +23,35 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		}
 
 		$scope.setOnderdeelDetails = function (index) {
-		// get the regel. It will look like <songtype> <songnumber> [:<verse>[,<verse>]*]
+		// get the regel. It will look like <book> <chapter> [:<verse>[<,|-><verse>]*]
 		// examples: 
-		// psalm 2:34
+		// psalm 2: 3, 6
 		// gezang 45
-		// lied 4:3,5
+		// 3 johannes 4:3 - 5
 		var line = $scope.onderdelen[index].regel
-		$log.debug('original: ' + line)
+		log.debug('original: ' + line)
 
 		// strip the regel from spaces
 		line = line.trim()
-		$log.debug('trimmed: ' + line)
+		log.debug('trimmed: ' + line)
 
 		// get the book. i.e. the part before the first space
 		var book = line.match(/^([123 ]{0,2}[a-zA-Z0-9]*)[ ]+(.*)[:.*]?$/)[1].trim()
-		$log.debug('book: ' + book)
+		log.debug('book: ' + book)
 
 		// get the chapter. i.e. the word after the first space and before an optional :
 		var chapter = line.match(/^[\d]?[ ]?[a-zA-Z0-9]*[ ]+([0-9a-z]+)/)[1]
-		$log.debug('chapter: ' + chapter)
+		log.debug('chapter: ' + chapter)
 
 		// get first and last verse
 		var verseLimits = { min: -1, max: -1 }
 		try {
 			verseLimits = { min: line.match(/: *([\d]+).*$/)[1], max: line.match(/(\d+)\D*$/)[1] }
 		} catch (error) {
-			$log.debug('verseLimits could not be determined; using defaults')
+			log.debug('verseLimits could not be determined; using defaults')
 		}
-		$log.debug('verseLimitMin: ' + verseLimits.min)
-		$log.debug('verseLimitMax: ' + verseLimits.max)
+		log.debug('verseLimitMin: ' + verseLimits.min)
+		log.debug('verseLimitMax: ' + verseLimits.max)
 
 		// get individual verses to know which ones to keep
 		// split everything after the : on ,
@@ -59,32 +59,29 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		if (line.indexOf(',') != -1) {
 			keep = line.match(/:(.*)/)[1].split(',')
 		}
-		$log.debug(keep)
+		log.debug(keep)
 
 		// get the objects from min to max
 		dbService.find({
 			selector: {
 				book: book,
-				chapter: chapter,
-				verse: {
-					$gt: verseLimits.min,
-					$lt: verseLimits.max
-				}
+				chapter: chapter
 			}
 			}).then(function (res) {
 				// Update UI (almost) instantly
-				$scope.onderdelen[index].verzen = []
+				$scope.onderdelen[index].documents = []
 				for (i in res.docs) {
 					var currentDoc = res.docs[i]
-					$scope.onderdelen[index].verzen.push({ id: 'gezang 13', tekst: currentDoc.tekst, activeVerse: currentDoc.vers })
+					if(keep.length == 0 || keep.indexOf(currentDoc.verse) > -1) {
+						$scope.onderdelen[index].documents.push(currentDoc)
+					}
 				}
 				if (res.docs.length == 0) {
-					$scope.onderdelen[index].verzen.push({ tekst: "Niets gevonden voor: " + $scope.onderdelen[index].regel })
+					$scope.onderdelen[index].documents.push({ text: "Niets gevonden voor: " + $scope.onderdelen[index].regel })
 				}
-				$log.debug(res)
 			})
 			.catch(function (err) {
-				$log.debug(err)
+				log.debug(err)
 			})
 			.finally(function () {
 				$scope.got = true;

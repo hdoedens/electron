@@ -70,9 +70,9 @@
           <table class="table table-striped">
             <tr ng-repeat="onderdeel in onderdelen">
               <td>
-                <div ng-repeat="vers in onderdeel.verzen">
-                  <div><strong><span ng-bind="vers.id"></span>: <span ng-bind="vers.activeVerse"></span></strong></div>
-                  <div ng-bind="vers.tekst"></div>
+                <div ng-repeat="document in onderdeel.documents">
+                  <div><strong><span ng-bind="document.book"></span> <span ng-bind="document.chapter"></span>: <span ng-bind="document.verse"></span></strong></div>
+                  <div ng-bind="document.text"></div>
                 </div>
               </td>
             </tr>

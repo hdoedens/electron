@@ -1,5 +1,5 @@
 angular.module('liturgieApp')
-  .factory('dbService', function (pouchDB, pouchDBDecorators) {
+  .factory('dbService', function (pouchDB, pouchDBDecorators, log) {
 
     var db = pouchDB('liturgieDB')
     // db.destroy()
@@ -8,8 +8,8 @@ angular.module('liturgieApp')
 
     db.createIndex({
       index: {
-        fields: ['book', 'chapter','verse'],
-        name: 'book_chapter_verse_index'
+        fields: ['book', 'chapter'],
+        name: 'book_chapter_index'
       }
     });
 
@@ -34,9 +34,9 @@ angular.module('liturgieApp')
     }]
 
     db.bulkDocs(docs).then(function (response) {
-      console.log('item created');
+      log.debug('item created');
     }).catch(function (error) {
-      console.log('item already created')
+      log.debug('item already created')
     })
 
     return db;
