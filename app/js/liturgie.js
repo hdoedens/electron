@@ -1,7 +1,7 @@
 angular.module('liturgieApp').controller('LiturgieController', function ($scope, $http, dbService, log) {
-		
+
 		$scope.validationRules = []
-		$scope.onderdelen = [{ regel: "", verzen: [], icon: "fa-question" }]
+		$scope.onderdelen = [{ regel: "", documents: [], icon: "fa-question" }]
 
 		$http.get('./resources/validation.json').then(function (response) {
 		for (n in response.data) {
@@ -10,16 +10,16 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		});
 
 		$scope.isValid = function (id, value) {
-		for (n in $scope.validationRules) {
-			for (i in $scope.validationRules[n].regexen) {
-				valid = new RegExp($scope.validationRules[n].regexen[i]).test(value)
-				if (valid) {
-					// gna gna, set the icon here
-					$scope.onderdelen[id].icon = $scope.validationRules[n].icon;
-					return true;
+			for (n in $scope.validationRules) {
+				for (i in $scope.validationRules[n].regexen) {
+					valid = new RegExp($scope.validationRules[n].regexen[i]).test(value)
+					if (valid) {
+						// gna gna, set the icon here
+						$scope.onderdelen[id].icon = $scope.validationRules[n].icon;
+						return true;
+					}
 				}
 			}
-		}
 		}
 
 		$scope.setOnderdeelDetails = function (index) {
@@ -54,10 +54,15 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		log.debug('verseLimitMax: ' + verseLimits.max)
 
 		// get individual verses to know which ones to keep
-		// split everything after the : on ,
+		// split everything after the : on ,; if no , keep the one verse
 		var keep = []
-		if (line.indexOf(',') != -1) {
-			keep = line.match(/:(.*)/)[1].split(',')
+		if (line.indexOf(':') != -1) {
+			var tmpKeep = line.match(/:(.*)/)[1]
+			if (tmpKeep.indexOf(',') != -1) {
+				keep = tmpKeep.split(',')
+			} else {
+				keep.push(tmpKeep)
+			}
 		}
 		log.debug(keep)
 
@@ -67,19 +72,19 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 				book: book,
 				chapter: chapter
 			}
-			}).then(function (res) {
-				// Update UI (almost) instantly
-				$scope.onderdelen[index].documents = []
-				for (i in res.docs) {
-					var currentDoc = res.docs[i]
-					if(keep.length == 0 || keep.indexOf(currentDoc.verse) > -1) {
-						$scope.onderdelen[index].documents.push(currentDoc)
-					}
+		}).then(function (res) {
+			// Update UI (almost) instantly
+			$scope.onderdelen[index].documents = []
+			for (i in res.docs) {
+				var currentDoc = res.docs[i]
+				if (keep.length == 0 || keep.indexOf(currentDoc.verse) > -1) {
+					$scope.onderdelen[index].documents.push(currentDoc)
 				}
-				if (res.docs.length == 0) {
-					$scope.onderdelen[index].documents.push({ text: "Niets gevonden voor: " + $scope.onderdelen[index].regel })
-				}
-			})
+			}
+			if (res.docs.length == 0) {
+				$scope.onderdelen[index].documents.push({ text: "Niets gevonden voor: " + $scope.onderdelen[index].regel })
+			}
+		})
 			.catch(function (err) {
 				log.debug(err)
 			})
@@ -89,7 +94,7 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		}
 
 		$scope.clearOnderdeelDetails = function (index) {
-		$scope.onderdelen[index].verzen = []
+		$scope.onderdelen[index].documents = []
 		$scope.onderdelen[index].icon = 'fa-question'
 		}
 
@@ -97,7 +102,7 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 
 		// lege input toevoegen
 		if (index == $scope.onderdelen.length - 1 && onderdeel.regel != '') {
-			$scope.onderdelen.push({ regel: "", verzen: [], icon: "fa-question" })
+			$scope.onderdelen.push({ regel: "", documents: [], icon: "fa-question" })
 		}
 
 		// lege input verwijderen
