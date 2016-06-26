@@ -75,14 +75,22 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		}).then(function (res) {
 			// Update UI (almost) instantly
 			$scope.onderdelen[index].documents = []
-			for (i in res.docs) {
-				var currentDoc = res.docs[i]
-				if (keep.length == 0 || keep.indexOf(currentDoc.verse) > -1) {
-					$scope.onderdelen[index].documents.push(currentDoc)
-				}
-			}
 			if (res.docs.length == 0) {
 				$scope.onderdelen[index].documents.push({ text: "Niets gevonden voor: " + $scope.onderdelen[index].regel })
+			}
+			else {
+				for (i in res.docs) {
+					var currentDoc = res.docs[i]
+					var keepIndex = keep.indexOf(currentDoc.verse)
+					if (keep.length == 0 || keepIndex > -1) {
+						$scope.onderdelen[index].documents.push(currentDoc)
+						// keep.splice(keepIndex, 1)
+					}
+				}
+				if(keep.length > 0) {
+					log.debug('verses not found: ' + keep)
+					$scope.onderdelen[index].documents.push({ text: "Niets gevonden voor vers: " + currentDoc.verse })
+				}
 			}
 		})
 			.catch(function (err) {
