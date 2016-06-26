@@ -10,16 +10,16 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		});
 
 		$scope.isValid = function (id, value) {
-			for (n in $scope.validationRules) {
-				for (i in $scope.validationRules[n].regexen) {
-					valid = new RegExp($scope.validationRules[n].regexen[i]).test(value)
-					if (valid) {
-						// gna gna, set the icon here
-						$scope.onderdelen[id].icon = $scope.validationRules[n].icon;
-						return true;
-					}
+		for (n in $scope.validationRules) {
+			for (i in $scope.validationRules[n].regexen) {
+				valid = new RegExp($scope.validationRules[n].regexen[i]).test(value)
+				if (valid) {
+					// gna gna, set the icon here
+					$scope.onderdelen[id].icon = $scope.validationRules[n].icon;
+					return true;
 				}
 			}
+		}
 		}
 
 		$scope.setOnderdeelDetails = function (index) {
@@ -29,29 +29,29 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		// gezang 45
 		// 3 johannes 4:3 - 5
 		var line = $scope.onderdelen[index].regel
-		log.debug('original: ' + line)
+		// log.debug('original: ' + line)
 
 		// strip the regel from spaces
 		line = line.trim()
-		log.debug('trimmed: ' + line)
+		// log.debug('trimmed: ' + line)
 
 		// get the book. i.e. the part before the first space
 		var book = line.match(/^([123 ]{0,2}[a-zA-Z0-9]*)[ ]+(.*)[:.*]?$/)[1].trim()
-		log.debug('book: ' + book)
+		// log.debug('book: ' + book)
 
 		// get the chapter. i.e. the word after the first space and before an optional :
 		var chapter = line.match(/^[\d]?[ ]?[a-zA-Z0-9]*[ ]+([0-9a-z]+)/)[1]
-		log.debug('chapter: ' + chapter)
+		// log.debug('chapter: ' + chapter)
 
 		// get first and last verse
 		var verseLimits = { min: -1, max: -1 }
 		try {
 			verseLimits = { min: line.match(/: *([\d]+).*$/)[1], max: line.match(/(\d+)\D*$/)[1] }
 		} catch (error) {
-			log.debug('verseLimits could not be determined; using defaults')
+			// log.debug('verseLimits could not be determined; using defaults')
 		}
-		log.debug('verseLimitMin: ' + verseLimits.min)
-		log.debug('verseLimitMax: ' + verseLimits.max)
+		// log.debug('verseLimitMin: ' + verseLimits.min)
+		// log.debug('verseLimitMax: ' + verseLimits.max)
 
 		// get individual verses to know which ones to keep
 		// split everything after the : on ,; if no , keep the one verse
@@ -64,14 +64,11 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 				keep.push(tmpKeep)
 			}
 		}
-		log.debug(keep)
+		log.debug('keep: ' + keep)
 
 		// get the objects from min to max
 		dbService.find({
-			selector: {
-				book: book,
-				chapter: chapter
-			}
+			selector: { book: book, chapter: chapter }
 		}).then(function (res) {
 			// Update UI (almost) instantly
 			$scope.onderdelen[index].documents = []
@@ -84,41 +81,39 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 					var keepIndex = keep.indexOf(currentDoc.verse)
 					if (keep.length == 0 || keepIndex > -1) {
 						$scope.onderdelen[index].documents.push(currentDoc)
-						// keep.splice(keepIndex, 1)
+						log.debug(currentDoc)
 					}
 				}
-				if(keep.length > 0) {
-					log.debug('verses not found: ' + keep)
-					$scope.onderdelen[index].documents.push({ text: "Niets gevonden voor vers: " + currentDoc.verse })
+				if (keep.length > $scope.onderdelen[index].documents.length) {
+					log.debug('some verses were not found: ' + keep)
+					$scope.onderdelen[index].documents.push({ text: "Niet alle verzen konden worden gevonden voor: " + $scope.onderdelen[index].regel })
 				}
 			}
-		})
-			.catch(function (err) {
-				log.debug(err)
-			})
-			.finally(function () {
-				$scope.got = true;
-			});
+		}).catch(function (err) {
+			log.debug(err)
+		}).finally(function () {
+			$scope.got = true;
+		});
 		}
 
 		$scope.clearOnderdeelDetails = function (index) {
-		$scope.onderdelen[index].documents = []
-		$scope.onderdelen[index].icon = 'fa-question'
+			$scope.onderdelen[index].documents = []
+			$scope.onderdelen[index].icon = 'fa-question'
 		}
 
 		$scope.manageInputs = function (index, onderdeel) {
 
-		// lege input toevoegen
-		if (index == $scope.onderdelen.length - 1 && onderdeel.regel != '') {
-			$scope.onderdelen.push({ regel: "", documents: [], icon: "fa-question" })
-		}
+			// lege input toevoegen
+			if (index == $scope.onderdelen.length - 1 && onderdeel.regel != '') {
+				$scope.onderdelen.push({ regel: "", documents: [], icon: "fa-question" })
+			}
 
-		// lege input verwijderen
-		if (index == $scope.onderdelen.length - 2 && onderdeel.regel == '' && $scope.onderdelen[$scope.onderdelen.length - 1] == '') {
-			$scope.onderdelen.pop()
-		}
+			// lege input verwijderen
+			if (index == $scope.onderdelen.length - 2 && onderdeel.regel == '' && $scope.onderdelen[$scope.onderdelen.length - 1] == '') {
+				$scope.onderdelen.pop()
+			}
 
-		$scope.onderdelen[index].regel = onderdeel.regel;
+			$scope.onderdelen[index].regel = onderdeel.regel;
 		}
 
 })
