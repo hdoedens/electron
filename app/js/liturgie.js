@@ -76,17 +76,28 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 				$scope.onderdelen[index].documents.push({ text: "Niets gevonden voor: " + $scope.onderdelen[index].regel })
 			}
 			else {
-				for (i in res.docs) {
-					var currentDoc = res.docs[i]
-					var keepIndex = keep.indexOf(currentDoc.verse)
-					if (keep.length == 0 || keepIndex > -1) {
+				// keep all documents
+				if(keep.length == 0) {
+					for (i in res.docs) {
+						var currentDoc = res.docs[i]
 						$scope.onderdelen[index].documents.push(currentDoc)
-						log.debug(currentDoc)
 					}
-				}
-				if (keep.length > $scope.onderdelen[index].documents.length) {
-					log.debug('some verses were not found: ' + keep)
-					$scope.onderdelen[index].documents.push({ text: "Niet alle verzen konden worden gevonden voor: " + $scope.onderdelen[index].regel })
+				} 
+				// keep a subset of documents
+				else {
+					for (i in res.docs) {
+						var currentDoc = res.docs[i]
+						var keepIndex = keep.indexOf(currentDoc.verse)
+						if (keepIndex > -1) {
+							$scope.onderdelen[index].documents.push(currentDoc)
+							keep.remove(currentDoc.verse)
+							log.debug(currentDoc)
+						}
+					}
+					if (keep.length > 0) {
+						log.debug('some verses were not found: ' + keep)
+						$scope.onderdelen[index].documents.push({ text: "De volgende verzen konden niet worden gevonden: " + keep })
+					}
 				}
 			}
 		}).catch(function (err) {
