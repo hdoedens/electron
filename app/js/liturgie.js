@@ -137,7 +137,11 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			link: function (scope, element, attrs, ngModel) {
 
 				element.on('blur keyup change', function () {
-					scope.$evalAsync(read);
+					// only trigger expensive functions when value really changed
+					if(scope.cache != element.val()) {
+						scope.$evalAsync(read);
+						scope.cache = element.val()
+					}
 				});
 				read(); // initialize
 
