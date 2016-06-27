@@ -71,8 +71,14 @@
             <tr ng-repeat="onderdeel in onderdelen">
               <td>
                 <div ng-repeat="document in onderdeel.documents">
-                  <div ng-show="document.book"><strong><span ng-bind="document.book"></span> <span ng-bind="document.chapter"></span>: <span ng-bind="document.verse"></span></strong></div>
-                  <div ng-bind="document.text"></div>
+                  <div ng-show="document.text">
+                    <strong>
+                      <span ng-bind="document.book"></span>
+                      <span ng-bind="document.chapter"></span>: <span ng-bind="document.verse"></span>
+                    </strong>
+                    <div ng-bind="document.text"></div>
+                  </div>
+                  <div ng-show="document.note"><i><span ng-bind="document.note"></span></i></div>
                 </div>
               </td>
             </tr>

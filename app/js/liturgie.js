@@ -60,6 +60,8 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			var tmpKeep = line.match(/:(.*)/)[1]
 			if (tmpKeep.indexOf(',') != -1) {
 				keep = tmpKeep.split(',')
+				// strip all raay entry from spaces
+				keep = keep.map(Function.prototype.call, String.prototype.trim)
 			} else {
 				keep.push(tmpKeep)
 			}
@@ -73,7 +75,7 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			// Update UI (almost) instantly
 			$scope.onderdelen[index].documents = []
 			if (res.docs.length == 0) {
-				$scope.onderdelen[index].documents.push({ text: "Niets gevonden voor: " + $scope.onderdelen[index].regel })
+				$scope.onderdelen[index].documents.push({ note: "Niets gevonden voor: " + $scope.onderdelen[index].regel })
 			}
 			else {
 				// keep all documents
@@ -96,7 +98,7 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 					}
 					if (keep.length > 0) {
 						log.debug('some verses were not found: ' + keep)
-						$scope.onderdelen[index].documents.push({ text: "De volgende verzen konden niet worden gevonden: " + keep })
+						$scope.onderdelen[index].documents.push({ note: "De volgende verzen konden niet worden gevonden: " + book + ' ' + chapter + ':' + keep })
 					}
 				}
 			}
