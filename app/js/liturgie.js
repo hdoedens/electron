@@ -34,11 +34,11 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		// log.debug('original: ' + line)
 
 		// get the book. i.e. the part before the first space
-		var book = line.match(/^([123 ]{0,2}[a-zA-Z0-9]*)[ ]+(.*)[:.*]?$/)[1].trim()
+		var book = line.match(/^([123 ]{0,2}[a-zA-Z0-9\u00eb\u00fc]*)[ ]+(.*)[:.*]?$/)[1].trim()
 		// log.debug('book: ' + book)
 
 		// get the chapter. i.e. the word after the first space and before an optional :
-		var chapter = line.match(/^[\d]?[ ]?[a-zA-Z0-9]*[ ]+([0-9a-z]+)/)[1]
+		var chapter = line.match(/^[\d]?[ ]?[a-zA-Z0-9\u00eb\u00fc]*[ ]+([0-9a-z]+)/)[1]
 		// log.debug('chapter: ' + chapter)
 
 		// get first and last verse
