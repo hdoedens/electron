@@ -23,17 +23,15 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		}
 
 		$scope.setOnderdeelDetails = function (index) {
+			$scope.onderdelen[index].valid = true
 		// get the regel. It will look like <book> <chapter> [:<verse>[<,|-><verse>]*]
 		// examples: 
 		// psalm 2: 3, 6
 		// gezang 45
 		// 3 johannes 4:3 - 5
-		var line = $scope.onderdelen[index].regel
-		// log.debug('original: ' + line)
-
 		// strip the regel from spaces
-		line = line.trim()
-		// log.debug('trimmed: ' + line)
+		var line = $scope.onderdelen[index].regel.trim()
+		// log.debug('original: ' + line)
 
 		// get the book. i.e. the part before the first space
 		var book = line.match(/^([123 ]{0,2}[a-zA-Z0-9]*)[ ]+(.*)[:.*]?$/)[1].trim()
@@ -66,7 +64,7 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 				keep.push(tmpKeep)
 			}
 		}
-		log.debug('keep: ' + keep)
+		// log.debug('keep: ' + keep)
 
 		// get the objects from min to max
 		dbService.find({
@@ -93,23 +91,24 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 						if (keepIndex > -1) {
 							$scope.onderdelen[index].documents.push(currentDoc)
 							keep.remove(currentDoc.verse)
-							log.debug(currentDoc)
+							// log.debug(currentDoc)
 						}
 					}
 					if (keep.length > 0) {
-						log.debug('some verses were not found: ' + keep)
-						$scope.onderdelen[index].documents.push({ note: "De volgende verzen konden niet worden gevonden: " + book + ' ' + chapter + ':' + keep })
+						// log.debug('some verses were not found: ' + keep)
+						$scope.onderdelen[index].documents.push({ note: "De volgende verzen konden niet worden gevonden: " + keep })
 					}
 				}
 			}
 		}).catch(function (err) {
-			log.debug(err)
+			log.error(err)
 		}).finally(function () {
 			$scope.got = true;
 		});
 		}
 
 		$scope.clearOnderdeelDetails = function (index) {
+			$scope.onderdelen[index].valid = false
 			$scope.onderdelen[index].documents = []
 			$scope.onderdelen[index].icon = 'fa-question'
 		}
