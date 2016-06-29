@@ -58,7 +58,7 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			var tmpKeep = line.match(/:(.*)/)[1]
 			if (tmpKeep.indexOf(',') != -1) {
 				keep = tmpKeep.split(',')
-				// strip all raay entry from spaces
+				// strip all entries from spaces
 				keep = keep.map(Function.prototype.call, String.prototype.trim)
 			} else {
 				keep.push(tmpKeep)
