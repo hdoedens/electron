@@ -9,18 +9,37 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		}
 		});
 
-		$scope.isValid = function (id, value) {
-		for (n in $scope.validationRules) {
-			for (i in $scope.validationRules[n].regexen) {
-				valid = new RegExp($scope.validationRules[n].regexen[i]).test(value)
-				if (valid) {
-					// gna gna, set the icon and the type here
-					$scope.onderdelen[id].icon = $scope.validationRules[n].icon;
-					$scope.onderdelen[id].getFromDb = $scope.validationRules[n].getFromDb
-					return true;
+		$scope.copyRawInput = function(rawInput) {
+			// flush existing onderdelen
+			$scope.onderdelen = []
+			rawInputLines = rawInput.split("\n")
+			for (index in rawInputLines) {
+				if(rawInputLines[index] == "") {
+					continue
+				}
+				$scope.onderdelen.push({regel: rawInputLines[index]})
+				if($scope.isValid(index, rawInputLines[index])) {
+					$scope.setOnderdeelDetails(index)
+				} else {
+					$scope.clearOnderdeelDetails(index)
 				}
 			}
+			// always add a last empty one
+			$scope.onderdelen.push({ regel: "", documents: [], icon: "fa-question" })
 		}
+
+		$scope.isValid = function (id, value) {
+			for (n in $scope.validationRules) {
+				for (i in $scope.validationRules[n].regexen) {
+					valid = new RegExp($scope.validationRules[n].regexen[i]).test(value)
+					if (valid) {
+						// gna gna, set the icon and the type here
+						$scope.onderdelen[id].icon = $scope.validationRules[n].icon;
+						$scope.onderdelen[id].getFromDb = $scope.validationRules[n].getFromDb
+						return true;
+					}
+				}
+			}
 		}
 
 		$scope.setOnderdeelDetails = function (index) {

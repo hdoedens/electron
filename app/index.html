@@ -29,8 +29,10 @@
           <form name="rawInputForm" class="css-form" novalidate>
             <div class="form-group">
               <h4>Volledige liturie</h4>
-              <textarea id="rawInput" class="form-control" placeholder="Plak hier de volledige liturgie"></textarea>
+              <textarea ng-model="rawInput" rows="15" class="form-control" placeholder="Plak hier de volledige liturgie"></textarea>
             </div>
+            <input type="submit" ng-click="copyRawInput(rawInput)" value="Inlezen" />
+          </form>
         </div>
         <div class="col-md-4">
           <h4>Afzonderlijke onderdelen</h4>
