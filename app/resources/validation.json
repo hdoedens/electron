@@ -1,6 +1,7 @@
 [
 	{
 		"icon": "fa-music",
+		"getFromDb": true,
 		"regexen": [
 			"^[Gg]ezang [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
 			"^[Pp]salm [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
@@ -52,11 +53,12 @@
 	{
 		"icon": "fa-eur",
 		"regexen": [
-			"^([cC]|[kK])olle[ck]te *$"
+			"^([cC]|[kK])olle[ck]te.*$"
 		]
 	},
 	{
 		"icon": "fa-book",
+		"getFromDb": true,
 		"regexen": [
 			"genesis *[\\d]+ *(: *[\\d]+ *)? *(- *[\\d]+)? *$",
 			"exodus *[\\d]+ *(: *[\\d]+ *)? *(- *[\\d]+)? *$",

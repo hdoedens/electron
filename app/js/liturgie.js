@@ -14,8 +14,9 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			for (i in $scope.validationRules[n].regexen) {
 				valid = new RegExp($scope.validationRules[n].regexen[i]).test(value)
 				if (valid) {
-					// gna gna, set the icon here
+					// gna gna, set the icon and the type here
 					$scope.onderdelen[id].icon = $scope.validationRules[n].icon;
+					$scope.onderdelen[id].getFromDb = $scope.validationRules[n].getFromDb
 					return true;
 				}
 			}
@@ -34,11 +35,16 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		// log.debug('original: ' + line)
 
 		// get the book. i.e. the part before the first space
-		var book = line.match(/^([123 ]{0,2}[a-zA-Z0-9ëü]*)[ ]+(.*)[:.*]?$/)[1].trim()
+		var book = line.match(/^([123 ]{0,2}[a-zA-Z0-9ëü]*)[ ]*.*$/)[1].trim()
 		// log.debug('book: ' + book)
 
 		// get the chapter. i.e. the word after the first space and before an optional :
-		var chapter = line.match(/^[\d]?[ ]?[a-zA-Z0-9ëü]*[ ]+([0-9a-z]+)/)[1]
+		var chapter = -1
+		try {
+			chapter = line.match(/^[\d]?[ ]?[a-zA-Z0-9ëü]*[ ]+([0-9a-z]+)/)[1]
+		} catch (error) {
+			// line is no song or biblebook, hence it has no chapter
+		}
 		// log.debug('chapter: ' + chapter)
 
 		// get first and last verse
@@ -66,45 +72,48 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		}
 		// log.debug('keep: ' + keep)
 
-		// get the objects from min to max
-		dbService.find({
-			selector: { book: book, chapter: chapter }
-		}).then(function (res) {
-			// Update UI (almost) instantly
-			$scope.onderdelen[index].documents = []
-			if (res.docs.length == 0) {
-				$scope.onderdelen[index].documents.push({ note: "Niets gevonden voor: " + $scope.onderdelen[index].regel })
-			}
-			else {
-				// keep all documents
-				if(keep.length == 0) {
-					for (i in res.docs) {
-						var currentDoc = res.docs[i]
-						$scope.onderdelen[index].documents.push(currentDoc)
+		// If the chapter == -1, it is most likely not a thingy in the database, so skip the search
+		if($scope.onderdelen[index].getFromDb) {
+			// get all documents from the chapter
+			dbService.find({
+				selector: { book: book, chapter: chapter }
+				}).then(function (res) {
+					// Update UI (almost) instantly
+					$scope.onderdelen[index].documents = []
+					if (res.docs.length == 0) {
+						$scope.onderdelen[index].documents.push({ note: "Niets gevonden voor: " + $scope.onderdelen[index].regel })
 					}
-				} 
-				// keep a subset of documents
-				else {
-					for (i in res.docs) {
-						var currentDoc = res.docs[i]
-						var keepIndex = keep.indexOf(currentDoc.verse)
-						if (keepIndex > -1) {
-							$scope.onderdelen[index].documents.push(currentDoc)
-							keep.remove(currentDoc.verse)
-							// log.debug(currentDoc)
+					else {
+						// keep all documents
+						if(keep.length == 0) {
+							for (i in res.docs) {
+								var currentDoc = res.docs[i]
+								$scope.onderdelen[index].documents.push(currentDoc)
+							}
+						} 
+						// keep a subset of documents
+						else {
+							for (i in res.docs) {
+								var currentDoc = res.docs[i]
+								var keepIndex = keep.indexOf(currentDoc.verse)
+								if (keepIndex > -1) {
+									$scope.onderdelen[index].documents.push(currentDoc)
+									keep.remove(currentDoc.verse)
+									// log.debug(currentDoc)
+								}
+							}
+							if (keep.length > 0) {
+								// log.debug('some verses were not found: ' + keep)
+								$scope.onderdelen[index].documents.push({ note: "De volgende verzen konden niet worden gevonden: " + keep })
+							}
 						}
 					}
-					if (keep.length > 0) {
-						// log.debug('some verses were not found: ' + keep)
-						$scope.onderdelen[index].documents.push({ note: "De volgende verzen konden niet worden gevonden: " + keep })
-					}
-				}
+				}).catch(function (err) {
+					log.error(err)
+				}).finally(function () {
+					$scope.got = true;
+				});
 			}
-		}).catch(function (err) {
-			log.error(err)
-		}).finally(function () {
-			$scope.got = true;
-		});
 		}
 
 		$scope.clearOnderdeelDetails = function (index) {
