@@ -18,11 +18,8 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 					continue
 				}
 				$scope.onderdelen.push({regel: rawInputLines[index]})
-				if($scope.isValid(index, rawInputLines[index])) {
-					$scope.setOnderdeelDetails(index)
-				} else {
-					$scope.clearOnderdeelDetails(index)
-				}
+				$scope.isValid(index, $scope.onderdelen[index].regel)
+				$scope.setOnderdeelDetails(index)
 			}
 			// always add a last empty one
 			$scope.onderdelen.push({ regel: "", documents: [], icon: "fa-question" })
