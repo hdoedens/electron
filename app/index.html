@@ -54,7 +54,6 @@
                     uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
                     typeahead-on-select="manageInputs($index, onderdeel)"
                     ng-controller="TypeAheadController"
-                    test-validity
                   >
                   <span ng-show="regelForm.onderdeel{{$index}}.valid && regelForm.onderdeel{{$index}}.$dirty" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                   <span ng-show="regelForm.onderdeel{{$index}}.invalid && regelForm.onderdeel{{$index}}.$dirty" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>

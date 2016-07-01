@@ -18,14 +18,15 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 					continue
 				}
 				$scope.onderdelen.push({regel: rawInputLines[index]})
-				$scope.isValid(index, $scope.onderdelen[index].regel)
+				$scope.isValid(index)
 				$scope.setOnderdeelDetails(index)
 			}
 			// always add a last empty one
 			$scope.onderdelen.push({ regel: "", documents: [], icon: "fa-question" })
 		}
 
-		$scope.isValid = function (id, value) {
+		$scope.isValid = function (id) {
+			var value = $scope.onderdelen[id].regel
 			for (n in $scope.validationRules) {
 				for (i in $scope.validationRules[n].regexen) {
 					valid = new RegExp($scope.validationRules[n].regexen[i]).test(value)
@@ -171,7 +172,7 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 
 				// Write data to the model
 				function read() {
-					var valid = scope.isValid(attrs.id, element.val())
+					var valid = scope.isValid(attrs.id)
 					if (valid)
 						scope.setOnderdeelDetails(attrs.id);
 					else
