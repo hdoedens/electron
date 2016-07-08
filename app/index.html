@@ -39,7 +39,8 @@
           <form name="regelForm" class="css-form" novalidate>
             <div ng-repeat="onderdeel in onderdelen track by $index">
               <div class="form-group has-feedback">
-                <div class="input-group">
+                <div class="{{ onderdeel.class }}">
+                   <!--class="input-group"-->
                   <span class="input-group-addon">
                     <i class="fa {{onderdeel.icon}}"></i>
                   </span>

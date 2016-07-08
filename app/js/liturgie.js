@@ -1,7 +1,7 @@
 angular.module('liturgieApp').controller('LiturgieController', function ($scope, $http, dbService, log) {
 
 		$scope.validationRules = []
-		$scope.onderdelen = [{ regel: "", documents: [], icon: "fa-question" }]
+		$scope.onderdelen = [{ regel: "", class: "input-group", documents: [], icon: "fa-question" }]
 
 		$http.get('./resources/validation.json').then(function (response) {
 		for (n in response.data) {
@@ -22,7 +22,7 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 				$scope.setOnderdeelDetails(index)
 			}
 			// always add a last empty one
-			$scope.onderdelen.push({ regel: "", documents: [], icon: "fa-question" })
+			$scope.onderdelen.push({ regel: "", class: "input-group", documents: [], icon: "fa-question" })
 		}
 
 		$scope.isValid = function (id) {
@@ -143,7 +143,7 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 
 			// lege input toevoegen
 			if (index == $scope.onderdelen.length - 1 && onderdeel.regel != '') {
-				$scope.onderdelen.push({ regel: "", documents: [], icon: "fa-question" })
+				$scope.onderdelen.push({ regel: "", class: "input-group", documents: [], icon: "fa-question" })
 			}
 
 			// lege input verwijderen
@@ -154,46 +154,17 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			$scope.onderdelen[index].regel = onderdeel.regel;
 
 			// start validate current input
-			if ($scope.isValid(index))
+			if ($scope.isValid(index)) {
 				$scope.setOnderdeelDetails(index);
-			else
+				$scope.onderdelen[index].class = "input-group has-success"
+			} else {
 				$scope.clearOnderdeelDetails(index);
+				$scope.onderdelen[index].class = "input-group has-error"
+			}
+
 			$scope.onderdelen[index].valid = valid;
 			$scope.onderdelen[index].invalid = !valid;
 
-			// element.parent().toggleClass('has-error', !valid && element.val() != '');
-			// element.parent().toggleClass('has-success', valid);
 		}
 
 })
-	.directive('testValidity', function () {
-		return {
-			restrict: 'A',
-			require: '?ngModel',
-			link: function (scope, element, attrs, ngModel) {
-
-				element.on('blur keyup change', function () {
-					// only trigger expensive functions when value really changed
-					if(scope.cache != element.val()) {
-						scope.$evalAsync(read);
-						scope.cache = element.val()
-					}
-				});
-				read(); // initialize
-
-				// Write data to the model
-				function read() {
-					var valid = scope.isValid(attrs.id)
-					if (valid)
-						scope.setOnderdeelDetails(attrs.id);
-					else
-						scope.clearOnderdeelDetails(attrs.id);
-					ngModel.valid = valid;
-					ngModel.invalid = !valid;
-
-					element.parent().toggleClass('has-error', !valid && element.val() != '');
-					element.parent().toggleClass('has-success', valid);
-				}
-			}
-		}
-	})
