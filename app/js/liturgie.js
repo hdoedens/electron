@@ -152,6 +152,17 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			}
 
 			$scope.onderdelen[index].regel = onderdeel.regel;
+
+			// start validate current input
+			if ($scope.isValid(index))
+				$scope.setOnderdeelDetails(index);
+			else
+				$scope.clearOnderdeelDetails(index);
+			$scope.onderdelen[index].valid = valid;
+			$scope.onderdelen[index].invalid = !valid;
+
+			// element.parent().toggleClass('has-error', !valid && element.val() != '');
+			// element.parent().toggleClass('has-success', valid);
 		}
 
 })
