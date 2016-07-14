@@ -32,6 +32,7 @@
               <textarea ng-model="rawInput" rows="15" class="form-control" placeholder="Plak hier de volledige liturgie"></textarea>
             </div>
             <input type="submit" ng-click="copyRawInput(rawInput)" value="Inlezen" />
+            <span ng-show="rawInputError" class="alert alert-info" ng-bind="rawInputError"></span>
           </form>
         </div>
         <div class="col-md-4">

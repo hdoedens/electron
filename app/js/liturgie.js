@@ -10,11 +10,16 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 		});
 
 		$scope.copyRawInput = function(rawInput) {
+			if(rawInput == null || rawInput.trim().length == 0) {
+				$scope.rawInputError = "Invoer is leeg, niets te doen"
+				return;
+			}
+			$scope.rawInputError = ""
 			// flush existing onderdelen
 			$scope.onderdelen = []
 			rawInputLines = rawInput.split("\n")
 			for (index in rawInputLines) {
-				if(rawInputLines[index] == "") {
+				if(rawInputLines[index].trim() == "") {
 					continue
 				}
 				var onderdeel = {regel: ''}
