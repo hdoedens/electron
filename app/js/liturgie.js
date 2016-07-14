@@ -17,12 +17,14 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 				if(rawInputLines[index] == "") {
 					continue
 				}
-				$scope.onderdelen.push({regel: rawInputLines[index]})
-				$scope.isValid(index)
-				$scope.setOnderdeelDetails(index)
+				var onderdeel = {regel: ''}
+				onderdeel.regel = rawInputLines[index]
+				
+				$scope.onderdelen.push({ regel: onderdeel.regel, class: "input-group", documents: [], icon: "fa-question" })
 			}
-			// always add a last empty one
-			$scope.onderdelen.push({ regel: "", class: "input-group", documents: [], icon: "fa-question" })
+			for (index in rawInputLines) {
+				$scope.manageInputs(index, onderdeel)
+			}
 		}
 
 		$scope.isValid = function (id) {
@@ -150,8 +152,6 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			if (index == $scope.onderdelen.length - 2 && onderdeel.regel == '' && $scope.onderdelen[$scope.onderdelen.length - 1] == '') {
 				$scope.onderdelen.pop()
 			}
-
-			$scope.onderdelen[index].regel = onderdeel.regel;
 
 			// start validate current input
 			if ($scope.isValid(index)) {
