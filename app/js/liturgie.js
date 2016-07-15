@@ -148,14 +148,9 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 
 		$scope.manageInputs = function (index, onderdeel) {
 
-			// lege input toevoegen
-			if (index == $scope.onderdelen.length - 1 && onderdeel.regel != '') {
-				$scope.onderdelen.push({ regel: "", class: "input-group", documents: [], icon: "fa-question" })
-			}
-
-			// lege input verwijderen
-			if (index == $scope.onderdelen.length - 2 && onderdeel.regel == '' && $scope.onderdelen[$scope.onderdelen.length - 1] == '') {
-				$scope.onderdelen.pop()
+			if(index >= $scope.onderdelen.length) {
+				log.warn('ignoring request to manage input with index ' + index + ' while onderdelen length is ' + $scope.onderdelen.length)
+				return
 			}
 
 			// start validate current input
@@ -170,6 +165,16 @@ angular.module('liturgieApp').controller('LiturgieController', function ($scope,
 			$scope.onderdelen[index].valid = valid;
 			$scope.onderdelen[index].invalid = !valid;
 
+			for(index = $scope.onderdelen.length - 1; index > 0; index--) {
+				if($scope.onderdelen[index].regel.trim() == '') {
+					$scope.onderdelen.pop()
+				} else {
+					break
+				}
+			}
+
+			// add empty line at the end
+			$scope.onderdelen.push({ regel: '', class: "input-group", documents: [], icon: "fa-question" })
 		}
 
 })
