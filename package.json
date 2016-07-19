@@ -16,6 +16,8 @@
     "bootstrap": "^3.3.6",
     "electron-log": "^1.0.12",
     "font-awesome": "^4.6.3",
+    "jquery": "^3.1.0",
+    "jqueryui": "^1.11.1",
     "pouchdb": "^5.4.1",
     "pouchdb-find": "^0.10.2"
   }

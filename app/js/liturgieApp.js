@@ -50,5 +50,5 @@ log.transports.console.format = '{h}:{i}:{s} {text}';
 // Set a function which formats output 
 // log.transports.console.format = (msg) => msg.text;
 
-angular.module('liturgieApp', ['ui.bootstrap', 'typeAhead', 'pouchdb'])
+angular.module('liturgieApp', ['ui.bootstrap', 'typeAhead', 'pouchdb', 'ui.sortable'])
 angular.module('liturgieApp').value('log', log)

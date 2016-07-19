@@ -4,6 +4,11 @@
   <head>
     <meta charset="UTF-8">
     <title>Poke Geek</title>
+    <!-- Insert this line above script imports  -->
+    <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+    
+    <script src="../node_modules/jquery/dist/jquery.js" type="text/javascript"></script>
+    <script src="../node_modules/jqueryui/jquery-ui.js" type="text/javascript"></script>
     <script src="../node_modules/angular/angular.js" type="text/javascript"></script>
     <script src="../node_modules/angular-route/angular-route.js" type="text/javascript"></script>
     <script src="../node_modules/angular-resource/angular-resource.js" type="text/javascript"></script>
@@ -11,11 +16,15 @@
     <script src="../node_modules/pouchdb/dist/pouchdb.js"></script>
     <script src="../node_modules/angular-pouchdb/dist/angular-pouchdb.js"></script>
     <script src="../node_modules/pouchdb-find/dist/pouchdb.find.js"></script>
-    <script src="../node_modules/directives/sortable/src/sortable.js" type="text/javascript"></script>
+    <script src="../node_modules/angular-ui-sortable/dist/sortable.js" type="text/javascript"></script>
     <script src="./js/liturgieApp.js" type="text/javascript"></script>
     <script src="./js/database.js" type="text/javascript"></script>
     <script src="./js/liturgie.js" type="text/javascript"></script>
     <script src="./js/typeAhead.js" type="text/javascript"></script>
+
+    <!-- Insert this line after script imports -->
+    <script>if (window.module) module = window.module;</script>
+
     <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.css">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="./css/app.css" />
@@ -39,30 +48,32 @@
         <div class="col-md-4">
           <h4>Afzonderlijke onderdelen</h4>
           <form name="regelForm" class="css-form" novalidate>
-            <div ng-repeat="onderdeel in onderdelen track by $index">
-              <div class="form-group has-feedback">
-                <div class="{{ onderdeel.class }}">
-                   <!--class="input-group"-->
-                  <span class="input-group-addon">
-                    <i class="fa {{onderdeel.icon}}"></i>
-                  </span>
-                  <input
-                    ng-model="onderdeel.regel"
-                    name="onderdeel{{$index}}"
-                    id="{{$index}}"
-                    type="text"
-                    class="form-control"
-                    ng-change="manageInputs($index, onderdeel)"
-                    placeholder="begin met typen"
-                    uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
-                    typeahead-on-select="manageInputs($index, onderdeel)"
-                    ng-controller="TypeAheadController"
-                  >
-                  <span ng-show="regelForm.onderdeel{{$index}}.valid && regelForm.onderdeel{{$index}}.$dirty" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                  <span ng-show="regelForm.onderdeel{{$index}}.invalid && regelForm.onderdeel{{$index}}.$dirty" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            <ul ui-sortable ng-model="onderdelen">
+              <li ng-repeat="onderdeel in onderdelen track by $index">
+                <div class="form-group has-feedback">
+                  <div class="{{ onderdeel.class }}">
+                    <!--class="input-group"-->
+                    <span class="input-group-addon">
+                      <i class="fa {{onderdeel.icon}}"></i>
+                    </span>
+                    <input
+                      ng-model="onderdeel.regel"
+                      name="onderdeel{{$index}}"
+                      id="{{$index}}"
+                      type="text"
+                      class="form-control"
+                      ng-change="manageInputs($index, onderdeel)"
+                      placeholder="begin met typen"
+                      uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
+                      typeahead-on-select="manageInputs($index, onderdeel)"
+                      ng-controller="TypeAheadController"
+                    >
+                    <span ng-show="regelForm.onderdeel{{$index}}.valid && regelForm.onderdeel{{$index}}.$dirty" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                    <span ng-show="regelForm.onderdeel{{$index}}.invalid && regelForm.onderdeel{{$index}}.$dirty" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  </div>
                 </div>
-              </div>
-            </div>
+              </li>
+            </ul>
             <div>
               <button type="submit" class="btn btn-success" ng-disabled="regelForm.$invalid">Verstuur</button>
             </div>
