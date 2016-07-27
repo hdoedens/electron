@@ -9,6 +9,13 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
 
   $scope.liturgie = Liturgie;
 
+  $scope.$on('rawInput', function(event, args) {
+    console.log('rawInput event detected')
+    for (index in $scope.liturgie) {
+			$scope.manageInputs(index, $scope.liturgie[index])
+		}
+  })
+
   $scope.manageInputs = function (index, onderdeel) {
 
     if (index >= $scope.liturgie.length) {
@@ -17,16 +24,13 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
     }
 
     // start validate current input
-    if ($scope.isValid(index)) {
-      $scope.setOnderdeelDetails(index);
+    if (isValid(index)) {
+      setOnderdeelDetails(index);
       $scope.liturgie[index].class = "input-group has-success"
     } else {
-      $scope.clearOnderdeelDetails(index);
+      clearOnderdeelDetails(index);
       $scope.liturgie[index].class = "input-group has-error"
     }
-
-    $scope.liturgie[index].valid = valid;
-    $scope.liturgie[index].invalid = !valid;
 
     for (index = $scope.liturgie.length - 1; index > 0; index--) {
       if ($scope.liturgie[index].regel.trim() == '') {
@@ -148,7 +152,7 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
     }
   }
 
-  $scope.clearOnderdeelDetails = function (index) {
+  var clearOnderdeelDetails = function (index) {
     $scope.liturgie[index].valid = false
     $scope.liturgie[index].documents = []
     $scope.liturgie[index].icon = 'fa-question'

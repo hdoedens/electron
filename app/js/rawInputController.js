@@ -1,6 +1,6 @@
-liedbase.controller('RawInputController', function ($scope, log, Liturgie) {
+liedbase.controller('RawInputController', function ($scope, $rootScope, log, Liturgie) {
 
-	$scope.liturgie = Liturgie;
+	var liturgie = Liturgie;
 
   $scope.copyRawInput = function (rawInput) {
 		if (rawInput == null || rawInput.trim().length == 0) {
@@ -9,7 +9,7 @@ liedbase.controller('RawInputController', function ($scope, log, Liturgie) {
 		}
 		$scope.rawInputError = ""
 		// flush existing onderdelen
-		$scope.liturgie = []
+		liturgie = []
 		rawInputLines = rawInput.split("\n")
 		for (index in rawInputLines) {
 			if (rawInputLines[index].trim() == "") {
@@ -18,11 +18,12 @@ liedbase.controller('RawInputController', function ($scope, log, Liturgie) {
 			var onderdeel = { regel: '' }
 			onderdeel.regel = rawInputLines[index]
 
-			$scope.liturgie.push({ regel: onderdeel.regel, class: "input-group", documents: [], icon: "fa-question" })
+			liturgie.push({ regel: onderdeel.regel, class: "input-group", documents: [], icon: "fa-question" })
 		}
 		// for (index in rawInputLines) {
 		// 	$scope.manageInputs(index, onderdeel)
 		// }
+		$rootScope.$broadcast('rawInput', {})
 	}
 
 })
