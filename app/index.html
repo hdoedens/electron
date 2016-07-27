@@ -18,8 +18,11 @@
     <script src="../node_modules/pouchdb-find/dist/pouchdb.find.js"></script>
     <script src="../node_modules/angular-ui-sortable/dist/sortable.js" type="text/javascript"></script>
     <script src="./js/liturgieApp.js" type="text/javascript"></script>
-    <script src="./js/database.js" type="text/javascript"></script>
-    <script src="./js/liturgie.js" type="text/javascript"></script>
+    <script src="./js/databaseFactory.js" type="text/javascript"></script>
+    <script src="./js/liturgieFactory.js" type="text/javascript"></script>
+    <script src="./js/rawInputController.js" type="text/javascript"></script>
+    <script src="./js/inputController.js" type="text/javascript"></script>
+    <script src="./js/previewController.js" type="text/javascript"></script>
     <script src="./js/typeAhead.js" type="text/javascript"></script>
 
     <!-- Insert this line after script imports -->
@@ -32,10 +35,10 @@
 
   <body>
 
-    <div class="container-fluid" ng-app="liturgieApp">
+    <div class="container-fluid" ng-app="liedbase">
 
-      <div class="row" ng-controller="LiturgieController">
-        <div class="col-md-4">
+      <div class="row">
+        <div class="col-md-4" ng-controller="RawInputController">
           <form name="rawInputForm" class="css-form" novalidate>
             <div class="form-group">
               <h4>Volledige liturie</h4>
@@ -45,11 +48,11 @@
             <span ng-show="rawInputError" class="alert alert-info" ng-bind="rawInputError"></span>
           </form>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" ng-controller="InputController">
           <h4>Afzonderlijke onderdelen</h4>
           <form name="regelForm" class="css-form" novalidate>
-            <ul ui-sortable ng-model="onderdelen">
-              <li ng-repeat="onderdeel in onderdelen track by $index">
+            <ul ui-sortable ng-model="liturgie">
+              <li ng-repeat="onderdeel in liturgie track by $index">
                 <div class="form-group has-feedback">
                   <div class="{{ onderdeel.class }}">
                     <!--class="input-group"-->
@@ -80,10 +83,10 @@
           </form>
         </div>
         
-        <div class="col-md-4">
+        <div class="col-md-4" ng-controller="PreviewController">
           <h4>Resultaat</h4>
           <table class="table table-striped">
-            <tr ng-repeat="onderdeel in onderdelen">
+            <tr ng-repeat="onderdeel in liturgie">
               <td ng-show="onderdeel.valid">
                 <h4 ng-bind="onderdeel.regel"></h4>
                 <div ng-repeat="document in onderdeel.documents">

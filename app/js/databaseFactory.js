@@ -1,5 +1,4 @@
-angular.module('liturgieApp')
-  .factory('dbService', function (pouchDB, pouchDBDecorators, log) {
+liedbase.factory('dbFactory', function (pouchDB, pouchDBDecorators, log) {
 
     var db = pouchDB('liturgieDB')
     // db.destroy()
@@ -41,4 +40,4 @@ angular.module('liturgieApp')
 
     return db;
 
-  })
+})

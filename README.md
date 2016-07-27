@@ -28,3 +28,5 @@ npm install && npm start
 Learn more about Electron and its API in the [documentation](http://electron.atom.io/docs/latest).
 
 #### License [CC0 (Public Domain)](LICENSE.md)
+
+implementing: http://stackoverflow.com/questions/21919962/share-data-between-angularjs-controllers
