@@ -23,6 +23,7 @@
     <script src="./js/rawInputController.js" type="text/javascript"></script>
     <script src="./js/inputController.js" type="text/javascript"></script>
     <script src="./js/previewController.js" type="text/javascript"></script>
+    <script src="./js/grabbers/levensliederenController.js" type="text/javascript"></script>
     <script src="./js/typeAhead.js" type="text/javascript"></script>
 
     <!-- Insert this line after script imports -->
@@ -47,6 +48,9 @@
             <input type="submit" ng-click="copyRawInput(rawInput)" value="Inlezen" />
             <span ng-show="rawInputError" class="alert alert-info" ng-bind="rawInputError"></span>
           </form>
+          <div ng-controller="LevensliederenController">
+            <button ng-click="grab()">grijp!</button>
+          </div>
         </div>
         <div class="col-md-4" ng-controller="InputController">
           <h4>Afzonderlijke onderdelen</h4>
@@ -94,7 +98,7 @@
                     <strong>
                       <span ng-bind="document.verse"></span>
                     </strong>
-                    <div ng-bind="document.text"></div>
+                    <div ng-bind-html="getHtml(document.text)"></div>
                   </div>
                   <div ng-show="document.note"><hr /><i><span ng-bind="document.note"></span></i></div>
                 </div>

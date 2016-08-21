@@ -10,10 +10,10 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
   $scope.liturgie = Liturgie;
 
   $scope.$on('rawInput', function(event, args) {
-    console.log('rawInput event detected')
-    for (index in $scope.liturgie) {
-			$scope.manageInputs(index, $scope.liturgie[index])
-		}
+    console.log('rawInput event detected with: ' + args.toString())
+    // for (index in $scope.liturgie) {
+		// 	$scope.manageInputs(index, $scope.liturgie[index])
+		// }
   })
 
   $scope.manageInputs = function (index, onderdeel) {

@@ -1,6 +1,4 @@
-liedbase.controller('RawInputController', function ($scope, $rootScope, log, Liturgie) {
-
-	var liturgie = Liturgie;
+liedbase.controller('RawInputController', function ($scope, $rootScope, log) {
 
   $scope.copyRawInput = function (rawInput) {
 		if (rawInput == null || rawInput.trim().length == 0) {
@@ -9,7 +7,7 @@ liedbase.controller('RawInputController', function ($scope, $rootScope, log, Lit
 		}
 		$scope.rawInputError = ""
 		// flush existing onderdelen
-		liturgie = []
+		var liturgie = []
 		rawInputLines = rawInput.split("\n")
 		for (index in rawInputLines) {
 			if (rawInputLines[index].trim() == "") {
@@ -23,7 +21,7 @@ liedbase.controller('RawInputController', function ($scope, $rootScope, log, Lit
 		// for (index in rawInputLines) {
 		// 	$scope.manageInputs(index, onderdeel)
 		// }
-		$rootScope.$broadcast('rawInput', {})
+		$rootScope.$broadcast('rawInput', {liturgie: liturgie})
 	}
 
 })
