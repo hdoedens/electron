@@ -5,6 +5,7 @@
 		"regexen": [
 			"^[Gg]ezang [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
 			"^[Pp]salm [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
+			"^[Ll]evenslied [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
 			"^[lL]ied([bB]oek)? [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
 			"^[oO]pwekking? [\\d]+[abcd]? *$"
 		]

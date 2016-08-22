@@ -1,28 +1,46 @@
 liedbase.controller('LevensliederenController', function ($scope, $http, log, dbFactory) {
-    var html;
+    var verseText;
     
     $scope.grab = function() {
-        $.get("http://www.levensliederen.net/portfolio/psalm-15/", function(data){
-            verses = $(data).find('.one-half p');
+        for(p=1;p<=1;p++) {
+            log.debug('trying to grab lied: ' + p)
+            $http.get("http://www.levensliederen.net/portfolio/psalm-" + p).then(function(response) {
+                // success
+                var data   = response.data,
+                    status = response.status,
+                    header = response.header,
+                    config = response.config;
+                log.debug(status)
+                var verses = $(data).find('.one-half');
+                var levenslied = $(data).find('h1.title.alignleft')[0].innerHTML.replace(/Psalm /, '')
 
-            log.info("ll log start")
-            for(i=1;i<=verses.length;i++) {
-                var html = verses[i-1].innerHTML
-                log.info(html)
-                if(html != "") {
-                    var doc = {
-                        "_id": "gezang_15_" + i,
-                        "book": 'gezang',
-                        "chapter": '15',
-                        "verse": ""+i,
-                        "text": html
+                log.debug(levenslied + ' gevonden, aantal verzen: ' + verses.length)
+                for(i=1;i<=verses.length;i++) {
+                    var verseText = verses[i-1].innerHTML
+                    log.debug('vers: ' + i + ': ' + verseText)
+                    if(verseText != "") {
+                        var doc = {
+                            "_id": "levenslied_" + levenslied + "_" + i,
+                            "book": 'levenslied',
+                            "chapter": '' + levenslied,
+                            "verse": "" + i,
+                            "text": verseText
+                        }
+                        dbFactory.put(doc)
+                    } else {
+                        log.info('text leeg op: ' + i)
                     }
-                    dbFactory.put(doc)
-                } else {
-                    log.info('text leeg op: ' + i)
                 }
-            }
-            log.info("ll log end")
-        });
+                
+            },function(response) {
+                // failure
+                var data   = response.data,
+                    status = response.status,
+                    header = response.header,
+                    config = response.config;
+                log.debug(status)
+                log.debug('lied ' + p + ' niet gevonden, verder naar volgende lied')
+            });
+        }
     }
 })
