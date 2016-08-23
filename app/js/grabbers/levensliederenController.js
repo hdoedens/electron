@@ -2,7 +2,7 @@ liedbase.controller('LevensliederenController', function ($scope, $http, log, db
     var verseText;
     
     $scope.grab = function() {
-        for(p=1;p<=1;p++) {
+        for(p=1;p<=150;p++) {
             log.debug('trying to grab lied: ' + p)
             $http.get("http://www.levensliederen.net/portfolio/psalm-" + p).then(function(response) {
                 // success
@@ -11,11 +11,11 @@ liedbase.controller('LevensliederenController', function ($scope, $http, log, db
                     header = response.header,
                     config = response.config;
                 log.debug(status)
-                var verses = $(data).find('.one-half');
+                var verses = $(data).find('.light-wrapper .inner div.one-half:first-of-type p')
                 var levenslied = $(data).find('h1.title.alignleft')[0].innerHTML.replace(/Psalm /, '')
 
-                log.debug(levenslied + ' gevonden, aantal verzen: ' + verses.length)
-                for(i=1;i<=verses.length;i++) {
+                log.debug(levenslied + ' gevonden, aantal verzen: ' + verses.length-1)
+                for(i=1;i<verses.length;i++) {
                     var verseText = verses[i-1].innerHTML
                     log.debug('vers: ' + i + ': ' + verseText)
                     if(verseText != "") {
