@@ -9,11 +9,17 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
 
   $scope.liturgie = Liturgie;
 
-  $scope.$on('rawInput', function(event, args) {
-    console.log('rawInput event detected with: ' + args.toString())
-    // for (index in $scope.liturgie) {
-		// 	$scope.manageInputs(index, $scope.liturgie[index])
-		// }
+  $scope.$on('rawInput', function(event, rawInput) {
+    // $scope.liturgie = []
+    rawInputLines = rawInput.split("\n")
+    for (index in rawInputLines) {
+      var regel = rawInputLines[index].trim()
+			if (regel == "") {
+				continue
+			}
+      $scope.liturgie.push({ regel: regel, class: "input-group", documents: [], icon: "fa-question" })
+      $scope.manageInputs(index, $scope.liturgie[index])
+    }
   })
 
   $scope.manageInputs = function (index, onderdeel) {
