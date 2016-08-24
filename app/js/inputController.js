@@ -10,19 +10,19 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
   $scope.liturgie = Liturgie;
 
   $scope.$on('rawInput', function(event, rawInput) {
-    // $scope.liturgie = []
+    $scope.liturgie.length = 0
     rawInputLines = rawInput.split("\n")
     for (index in rawInputLines) {
       var regel = rawInputLines[index].trim()
-			if (regel == "") {
+			if (regel == "" || regel == null) {
 				continue
 			}
-      $scope.liturgie.push({ regel: regel, class: "input-group", documents: [], icon: "fa-question" })
-      $scope.manageInputs(index, $scope.liturgie[index])
+      $scope.liturgie.push({ regel: regel })
+      $scope.manageInput(index)
     }
   })
 
-  $scope.manageInputs = function (index, onderdeel) {
+  $scope.manageInput = function (index) {
 
     if (index >= $scope.liturgie.length) {
       log.warn('ignoring request to manage input with index ' + index + ' while onderdelen length is ' + $scope.liturgie.length)
@@ -47,7 +47,7 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
     }
 
     // add empty line at the end
-    $scope.liturgie.push({ regel: '', class: "input-group", documents: [], icon: "fa-question" })
+    // $scope.liturgie.push({ regel: '', class: "input-group", documents: [], icon: "fa-question" })
   }
 
   var isValid = function (id) {

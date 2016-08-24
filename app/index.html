@@ -68,7 +68,7 @@
                       name="onderdeel{{$index}}"
                       id="{{$index}}"
                       type="text"
-                      ng-change="manageInputs($index, onderdeel)"
+                      ng-change="manageInput($index)"
                       class="form-control"
                       placeholder="begin met typen"
                       uib-typeahead="item for item in items | filter:$viewValue | limitTo:8"
