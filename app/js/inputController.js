@@ -9,15 +9,15 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
 
   $scope.liturgie = Liturgie;
 
-  $scope.$on('rawInput', function(event, rawInput) {
+  $scope.$on('rawInput', function (event, rawInput) {
     $scope.liturgie.length = 0
     rawInputLines = rawInput.split("\n")
     var index = 0;
     for (index in rawInputLines) {
       var regel = rawInputLines[index].trim()
-			if (regel == "" || regel == null) {
-				continue
-			}
+      if (regel == "" || regel == null) {
+        continue
+      }
       $scope.liturgie.push({ regel: regel })
       $scope.manageInput(index)
     }
@@ -25,7 +25,7 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
     manageEmptyInputs(index);
   })
 
-  $scope.inputChanged = function(index) {
+  $scope.inputChanged = function (index) {
     $scope.manageInput(index);
     manageEmptyInputs(index);
   }
@@ -45,10 +45,10 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
       clearOnderdeelDetails(index);
       $scope.liturgie[index].class = "input-group has-error"
     }
-    
+
   }
 
-  var manageEmptyInputs = function(index) {
+  var manageEmptyInputs = function (index) {
 
     for (index = $scope.liturgie.length - 1; index > 0; index--) {
       if ($scope.liturgie[index].regel.trim() == '') {
