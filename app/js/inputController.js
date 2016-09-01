@@ -12,6 +12,7 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
   $scope.$on('rawInput', function(event, rawInput) {
     $scope.liturgie.length = 0
     rawInputLines = rawInput.split("\n")
+    var index = 0;
     for (index in rawInputLines) {
       var regel = rawInputLines[index].trim()
 			if (regel == "" || regel == null) {
@@ -20,7 +21,14 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
       $scope.liturgie.push({ regel: regel })
       $scope.manageInput(index)
     }
+
+    manageEmptyInputs(index);
   })
+
+  $scope.inputChanged = function(index) {
+    $scope.manageInput(index);
+    manageEmptyInputs(index);
+  }
 
   $scope.manageInput = function (index) {
 
@@ -37,6 +45,10 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
       clearOnderdeelDetails(index);
       $scope.liturgie[index].class = "input-group has-error"
     }
+    
+  }
+
+  var manageEmptyInputs = function(index) {
 
     for (index = $scope.liturgie.length - 1; index > 0; index--) {
       if ($scope.liturgie[index].regel.trim() == '') {
@@ -47,7 +59,7 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
     }
 
     // add empty line at the end
-    // $scope.liturgie.push({ regel: '', class: "input-group", documents: [], icon: "fa-question" })
+    $scope.liturgie.push({ regel: '', class: "input-group", documents: [], icon: "fa-question" })
   }
 
   var isValid = function (id) {
