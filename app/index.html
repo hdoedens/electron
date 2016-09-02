@@ -51,6 +51,7 @@
           <div ng-controller="LevensliederenController">
             <button ng-click="grab()">grijp levensliederen</button>
             <button ng-click="exportAll()">levensliederen exporteren</button>
+            <div ng-bind-html="getExport()"></div>
           </div>
         </div>
         <div class="col-md-4" ng-controller="InputController">

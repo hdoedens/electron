@@ -1,4 +1,4 @@
-liedbase.controller('LevensliederenController', function ($scope, $http, log, dbFactory) {
+liedbase.controller('LevensliederenController', function ($sce, $scope, $http, log, dbFactory) {
     var verseText;
 
     $scope.grab = function () {
@@ -44,17 +44,24 @@ liedbase.controller('LevensliederenController', function ($scope, $http, log, db
         }
     }
 
+    $scope.export = '';
+    $scope.getExport = function() {
+        return $sce.trustAsHtml($scope.export)
+    }
+
     $scope.exportAll = function () {
+        $scope.export = ''
         dbFactory.find({
             selector: { book: 'levenslied' }
         }).then(function (res) {
             if (res.docs.length == 0) {
-                log.info("Niets gevonden")
+                $scope.export = "Niets gevonden"
             }
             else {
                 for (i in res.docs) {
                     var currentDoc = res.docs[i]
-                    log.info(currentDoc.text)
+                    $scope.export += currentDoc.text
+                    log.info(currentDoc.book + ' ' + currentDoc.chapter + ': ' + currentDoc.verse)
                 }
             }
         }).catch(function (err) {
