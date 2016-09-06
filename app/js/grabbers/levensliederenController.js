@@ -51,8 +51,15 @@ liedbase.controller('LevensliederenController', function ($sce, $scope, $http, l
 
     $scope.exportAll = function () {
         $scope.export = ''
-        dbFactory.find({
-            selector: { book: 'levenslied' }
+        dbFactory.createIndex({
+            index: {
+                fields: ['chapter']
+            }
+        }).then(function(result) {
+            return dbFactory.find({
+                selector: { 'book': 'levenslied', 'chapter': {'$gt': null}},
+                sort: ['chapter']
+            })
         }).then(function (res) {
             if (res.docs.length == 0) {
                 $scope.export = "Niets gevonden"
@@ -65,7 +72,6 @@ liedbase.controller('LevensliederenController', function ($sce, $scope, $http, l
                 }
             }
         }).catch(function (err) {
-            log.error(err)
         });
     }
 })
