@@ -22,8 +22,8 @@ liedbase.controller('LevensliederenController', function ($sce, $scope, $http, l
                         var doc = {
                             "_id": "levenslied_" + levenslied + "_" + i,
                             "book": 'levenslied',
-                            "chapter": '' + levenslied,
-                            "verse": "" + i,
+                            "chapter": parseInt(levenslied),
+                            "verse": i,
                             "text": verseText
                         }
                         dbFactory.put(doc)

@@ -95,7 +95,7 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
     // get the chapter. i.e. the word after the first space and before an optional :
     var chapter = -1
     try {
-      chapter = line.match(/^[\d]?[ ]?[a-zA-Z0-9ëü]*[ ]+([0-9a-z]+)/)[1]
+      chapter = parseInt(line.match(/^[\d]?[ ]?[a-zA-Z0-9ëü]*[ ]+([0-9a-z]+)/)[1])
     } catch (error) {
       // line is no song or biblebook, hence it has no chapter
     }
