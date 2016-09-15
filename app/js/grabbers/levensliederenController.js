@@ -59,19 +59,19 @@ liedbase.controller('LevensliederenController', function ($sce, $scope, $http, l
             return dbFactory.find({
                 selector: { 'book': 'levenslied', 'chapter': {'$gt': null}},
                 sort: ['chapter']
-            })
-        }).then(function (res) {
-            if (res.docs.length == 0) {
-                $scope.export = "Niets gevonden"
-            }
-            else {
-                for (i in res.docs) {
-                    var currentDoc = res.docs[i]
-                    $scope.export += currentDoc.text
-                    log.info(currentDoc.book + ' ' + currentDoc.chapter + ': ' + currentDoc.verse)
+            }).then(function (res) {
+                if (res.docs.length == 0) {
+                    $scope.export = "Niets gevonden"
                 }
-            }
-        }).catch(function (err) {
+                else {
+                    for (i in res.docs) {
+                        var currentDoc = res.docs[i]
+                        $scope.export += 'levenslied ' + currentDoc.chapter + ': 1-'
+                        log.info(currentDoc.book + ' ' + currentDoc.chapter + ': ' + currentDoc.verse)
+                    }
+                }
+            }).catch(function (err) {
+            });
         });
     }
 })
