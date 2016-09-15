@@ -64,10 +64,16 @@ liedbase.controller('LevensliederenController', function ($sce, $scope, $http, l
                     $scope.export = "Niets gevonden"
                 }
                 else {
+                    var previousChapter = ''
                     for (i in res.docs) {
                         var currentDoc = res.docs[i]
-                        $scope.export += 'levenslied ' + currentDoc.chapter + ': 1-'
-                        log.info(currentDoc.book + ' ' + currentDoc.chapter + ': ' + currentDoc.verse)
+                        // print chapter header
+                        if(currentDoc.chapter != previousChapter) {
+                            $scope.export += '<br />levenslied ' + currentDoc.chapter + ': 1-<br />'
+                        }
+                        $scope.export += currentDoc.verse + '<br />'
+                        $scope.export += currentDoc.text + '<br />'
+                        previousChapter = currentDoc.chapter
                     }
                 }
             }).catch(function (err) {
