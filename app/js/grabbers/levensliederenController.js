@@ -69,7 +69,17 @@ liedbase.controller('LevensliederenController', function ($sce, $scope, $http, l
                         var currentDoc = res.docs[i]
                         // print chapter header
                         if(currentDoc.chapter != previousChapter) {
-                            $scope.export += '<br />levenslied ' + currentDoc.chapter + ': 1-<br />'
+                            // find max verse number for this chapter
+                            var maxVerseNumber = 0
+                            for(v in res.docs) {
+                                if(res.docs[v].chapter > currentDoc.chapter) {
+                                    break
+                                }
+                                if(res.docs[v].chapter == currentDoc.chapter) {
+                                    maxVerseNumber = res.docs[v].verse
+                                }
+                            }
+                            $scope.export += '<br />levenslied ' + currentDoc.chapter + ': 1-' + maxVerseNumber + '<br />'
                         }
                         $scope.export += currentDoc.verse + '<br />'
                         $scope.export += currentDoc.text + '<br />'
