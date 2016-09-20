@@ -10,8 +10,8 @@ var PouchDB = require('pouchdb');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-function createWindow () {
-  // Create the browser window.
+function createMainWindow() {
+  // Create the main window.
   mainWindow = new BrowserWindow({x:0, y:0, width: 1920, height: 1280})
 
   // and load the index.html of the app.
@@ -27,14 +27,27 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+}
 
+function createBigScreenWindow() {
+  // create the window for the big screen
+  var bigScreenWindow = new BrowserWindow({
+    width: 400,
+    height: 300,
+    show: true
+  })
+  bigScreenWindow.loadURL('file://' + __dirname + '/bigScreen.html')
+}
 
+function createWindows () {
+  createMainWindow()
+  createBigScreenWindow()
 }
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', createWindows)
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -49,6 +62,6 @@ app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow()
+    createWindows()
   }
 })
