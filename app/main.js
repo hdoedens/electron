@@ -6,6 +6,20 @@ const BrowserWindow = electron.BrowserWindow
 // use pouchDB
 var PouchDB = require('pouchdb');
 
+var bigScreenWindow
+
+const {ipcMain} = require('electron')
+ipcMain.on('toggle-bigscreen', (event, arg) => {
+  toggleBigscreen()
+})
+
+function toggleBigscreen() {
+  if(bigScreenWindow.isVisible())
+    bigScreenWindow.hide()
+  else
+    bigScreenWindow.show()
+}
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -31,7 +45,7 @@ function createMainWindow() {
 
 function createBigScreenWindow() {
   // create the window for the big screen
-  var bigScreenWindow = new BrowserWindow({
+  bigScreenWindow = new BrowserWindow({
     width: 400,
     height: 300,
     show: true
