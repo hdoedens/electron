@@ -10,15 +10,13 @@ var bigScreenWindow
 
 const {ipcMain} = require('electron')
 ipcMain.on('toggle-bigscreen', (event, arg) => {
-  toggleBigscreen()
-})
-
-function toggleBigscreen() {
   if(bigScreenWindow.isVisible())
     bigScreenWindow.hide()
-  else
+  else {
     bigScreenWindow.show()
-}
+    bigScreenWindow.setFullScreen(true);
+  }
+})
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -27,6 +25,9 @@ let mainWindow
 function createMainWindow() {
   // Create the main window.
   mainWindow = new BrowserWindow({x:0, y:0, width: 1920, height: 1280})
+
+  // disable the default menu
+  mainWindow.setMenu(null);
 
   // and load the index.html of the app.
   mainWindow.loadURL('file://' + __dirname + '/index.html')
@@ -50,6 +51,9 @@ function createBigScreenWindow() {
     height: 300,
     show: true
   })
+
+  bigScreenWindow.setFullScreen(true);
+
   bigScreenWindow.loadURL('file://' + __dirname + '/bigScreen.html')
 }
 
