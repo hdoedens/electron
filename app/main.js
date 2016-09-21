@@ -33,7 +33,7 @@ function createMainWindow() {
   mainWindow.loadURL('file://' + __dirname + '/index.html')
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -53,6 +53,7 @@ function createBigScreenWindow() {
   })
 
   bigScreenWindow.setFullScreen(true);
+  bigScreenWindow.webContents.openDevTools()
 
   bigScreenWindow.loadURL('file://' + __dirname + '/bigScreen.html')
 }
