@@ -1,9 +1,6 @@
-var remote = require('electron')
-remote.liedbase.controller('BigScreenController', function ($sce, $scope, log) {
-  
-  $scope.title = 'title here'
-  $scope.content = 'content here'
+// var remote = require('remote')
+const {ipcRenderer} = require('electron')
 
-  console.log('is me doing?')
-
+ipcRenderer.on('test', function(event, data) {
+  console.log("data: ${data.msg}")
 })
