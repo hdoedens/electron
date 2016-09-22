@@ -10,11 +10,13 @@ var bigScreenWindow
 
 const {ipcMain} = require('electron')
 ipcMain.on('toggle-bigscreen', (event, arg) => {
-  if(bigScreenWindow.isVisible())
-    bigScreenWindow.hide()
-  else {
-    bigScreenWindow.show()
-    bigScreenWindow.setFullScreen(true);
+  bigScreenWindow.webContents.send('test', 'foo')
+  if(bigScreenWindow.isVisible()) {
+    // bigScreenWindow.hide()
+
+  } else {
+    // bigScreenWindow.show()
+    // bigScreenWindow.setFullScreen(true);
   }
 })
 
@@ -33,7 +35,7 @@ function createMainWindow() {
   mainWindow.loadURL('file://' + __dirname + '/index.html')
 
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
