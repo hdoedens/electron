@@ -2,36 +2,46 @@
 <html lang="nl">
 
     <head>
-        <!--<meta charset="UTF-8">
+        <meta charset="UTF-8">
         <title>Poke Geek</title>
-        <!-- Insert this line above script imports  ->
+        <!-- Insert this line above script imports  -->
         <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
-
+    
         <script src="../node_modules/jquery/dist/jquery.js" type="text/javascript"></script>
         <script src="../node_modules/jqueryui/jquery-ui.js" type="text/javascript"></script>
         <script src="../node_modules/angular/angular.js" type="text/javascript"></script>
         <script src="../node_modules/angular-route/angular-route.js" type="text/javascript"></script>
         <script src="../node_modules/angular-resource/angular-resource.js" type="text/javascript"></script>
         <script src="../node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js" type="text/javascript"></script>
+        <script src="../node_modules/pouchdb/dist/pouchdb.js"></script>
+        <script src="../node_modules/angular-pouchdb/dist/angular-pouchdb.js"></script>
+        <script src="../node_modules/pouchdb-find/dist/pouchdb.find.js"></script>
+        <script src="../node_modules/angular-ui-sortable/dist/sortable.js" type="text/javascript"></script>
         <script src="./js/liturgieApp.js" type="text/javascript"></script>
+        <script src="./js/databaseFactory.js" type="text/javascript"></script>
+        <script src="./js/liturgieFactory.js" type="text/javascript"></script>
+        <script src="./js/rawInputController.js" type="text/javascript"></script>
         <script src="./js/inputController.js" type="text/javascript"></script>
+        <script src="./js/previewController.js" type="text/javascript"></script>
+        <script src="./js/typeAhead.js" type="text/javascript"></script>
+        <script src="./js/grabbers/levensliederenController.js" type="text/javascript"></script>
         <script src="./js/bigscreenController.js" type="text/javascript"></script>
 
-        <!-- Insert this line after script imports ->
+        <!-- Insert this line after script imports -->
         <script>if (window.module) module = window.module;</script>
 
         <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.css">
         <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="./css/app.css" />-->
+        <link rel="stylesheet" href="./css/app.css" />
     </head>
 
     <body>
 
-        <div class="container-fluid">
+        <div class="container-fluid" ng-app="liedbase">
 
-            <div class="row" ng-controller="BigScreenController">
+            <div class="row" ng-controller="BigscreenController">
                 <h1 ng-bind="title"></h1>
-                <div class="col-md-12" ng-controller="BigScreenController"></div>
+                <div class="col-md-12"></div>
             </div>
         </div>
     </body>

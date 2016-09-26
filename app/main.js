@@ -9,15 +9,15 @@ var PouchDB = require('pouchdb');
 var bigScreenWindow
 
 const {ipcMain} = require('electron')
-ipcMain.on('toggle-bigscreen', (event, arg) => {
-  bigScreenWindow.webContents.send('test', 'foo')
-  if(bigScreenWindow.isVisible()) {
-    // bigScreenWindow.hide()
 
-  } else {
-    // bigScreenWindow.show()
-    // bigScreenWindow.setFullScreen(true);
-  }
+ipcMain.on('toggle-bigscreen', (event, arg) => {
+  bigScreenWindow.webContents.send('test', 'ggg')
+  // if(bigScreenWindow.isVisible()) {
+  //   bigScreenWindow.hide()
+  // } else {
+  //   bigScreenWindow.show()
+  //   bigScreenWindow.setFullScreen(true);
+  // }
 })
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -26,7 +26,7 @@ let mainWindow
 
 function createMainWindow() {
   // Create the main window.
-  mainWindow = new BrowserWindow({x:0, y:0, width: 1920, height: 1280})
+  mainWindow = new BrowserWindow({x:0, y:0, width: 1600, height: 1200})
 
   // disable the default menu
   mainWindow.setMenu(null);
@@ -49,12 +49,12 @@ function createMainWindow() {
 function createBigScreenWindow() {
   // create the window for the big screen
   bigScreenWindow = new BrowserWindow({
-    width: 400,
-    height: 300,
+    width: 1600,
+    height: 1200,
     show: true
   })
 
-  bigScreenWindow.setFullScreen(true);
+  // bigScreenWindow.setFullScreen(true);
   bigScreenWindow.webContents.openDevTools()
 
   bigScreenWindow.loadURL('file://' + __dirname + '/bigScreen.html')
@@ -63,6 +63,7 @@ function createBigScreenWindow() {
 function createWindows () {
   createMainWindow()
   createBigScreenWindow()
+  global.sharedObject = {};
 }
 
 // This method will be called when Electron has finished

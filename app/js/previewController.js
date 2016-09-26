@@ -1,4 +1,3 @@
-const {ipcRenderer} = require('electron');
 liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) {
   $scope.liturgie = Liturgie;
 
@@ -6,6 +5,9 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
     return $sce.trustAsHtml(data)
   }
 
+  // require('remote').getGlobal('sharedObject').someProperty = 'some value';
+
+  const {ipcRenderer} = require('electron')
   $scope.toggleBigscreen = function() {
     ipcRenderer.send('toggle-bigscreen', '')
   }
