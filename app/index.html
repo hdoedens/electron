@@ -90,13 +90,13 @@
         </div>
         
         <div class="col-md-4" ng-controller="PreviewController">
-          <button ng-click="toggleBigscreen()">Presenteer</button>
           <h4>Resultaat</h4>
           <table class="table table-striped">
-            <tr ng-repeat="onderdeel in liturgie">
+            <tr ng-repeat="onderdeel in liturgie track by $index">
               <td ng-show="onderdeel.valid">
                 <h4 ng-bind="onderdeel.regel"></h4>
-                <div ng-repeat="document in onderdeel.documents">
+                <div ng-repeat="document in onderdeel.documents track by $index">
+                  <button ng-click="showThis($parent.$index, $index)">Presenteer</button>
                   <div ng-show="document.text">
                     <strong>
                       <span ng-bind="document.verse"></span>

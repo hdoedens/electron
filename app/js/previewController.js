@@ -9,4 +9,10 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   $scope.toggleBigscreen = function() {
     ipcRenderer.send('toggle-bigscreen', '')
   }
+
+  $scope.showThis = function(liturgieIndex, documentIndex) {
+    $scope.liturgie.display = $scope.liturgie[liturgieIndex].documents[documentIndex].text
+    log.info('displaying: ' + $scope.liturgie.display)
+  } 
+
 })
