@@ -10,8 +10,8 @@ var bigScreenWindow
 
 const {ipcMain} = require('electron')
 
-ipcMain.on('toggle-bigscreen', (event, arg) => {
-  bigScreenWindow.webContents.send('test', 'ggg')
+ipcMain.on('display', (event, data) => {
+  bigScreenWindow.webContents.send('display', data)
   // if(bigScreenWindow.isVisible()) {
   //   bigScreenWindow.hide()
   // } else {

@@ -40,9 +40,11 @@
         <div class="container-fluid" ng-app="liedbase">
 
             <div class="row" ng-controller="BigscreenController">
-                <h1 ng-bind="title"></h1>
+                <h1></h1>
                 <div class="col-md-12">
-                    <div ng-bind="liturgie.display"></div>
+                    <div>
+                        <span ng-bind="mainText"></span>
+                    </div>
                 </div>
             </div>
         </div>
