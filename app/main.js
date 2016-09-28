@@ -12,12 +12,15 @@ const {ipcMain} = require('electron')
 
 ipcMain.on('display', (event, data) => {
   bigScreenWindow.webContents.send('display', data)
-  // if(bigScreenWindow.isVisible()) {
-  //   bigScreenWindow.hide()
-  // } else {
-  //   bigScreenWindow.show()
-  //   bigScreenWindow.setFullScreen(true);
-  // }
+})
+
+ipcMain.on('toggle-bigscreen', (event, data) => {
+  if(bigScreenWindow.isVisible()) {
+    bigScreenWindow.hide()
+  } else {
+    bigScreenWindow.show()
+    bigScreenWindow.setFullScreen(true);
+  }
 })
 
 // Keep a global reference of the window object, if you don't, the window will

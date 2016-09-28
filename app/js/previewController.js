@@ -8,7 +8,11 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   const {ipcRenderer} = require('electron')
 
   $scope.showThis = function(liturgieIndex, documentIndex) {
-    ipcRenderer.send('display', $scope.liturgie[liturgieIndex].documents[documentIndex].text)
+    var data = {}
+    data.title = $scope.liturgie[liturgieIndex].regel
+    data.text = $scope.liturgie[liturgieIndex].documents[documentIndex].text
+    data.highlight = $scope.liturgie[liturgieIndex].documents[documentIndex].verse
+    ipcRenderer.send('display', data)
   } 
 
 })

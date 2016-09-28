@@ -40,10 +40,10 @@
         <div class="container-fluid" ng-app="liedbase">
 
             <div class="row" ng-controller="BigscreenController">
-                <h1></h1>
                 <div class="col-md-12">
+                    <h3 ng-bind="title"></h3>
                     <div>
-                        <span ng-bind="mainText"></span>
+                        <span ng-bind-html="getHtml(text)"></span>
                     </div>
                 </div>
             </div>
