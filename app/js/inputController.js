@@ -123,6 +123,8 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
       } else {
         keep.push(tmpKeep)
       }
+      // convert all keeper string to int
+      for(var i=0; i<keep.length; i++) { keep[i] = parseInt(keep[i], 10); } 
     }
     // log.debug('keep: ' + keep)
 
