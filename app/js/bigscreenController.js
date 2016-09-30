@@ -12,12 +12,11 @@ liedbase.controller('BigscreenController', function ($sce, $scope, log, Liturgie
   })
 
   var formatTitle = function(title, highlight) {
-    var regex = new RegExp("(.*[:] ?[0-9, ]*)[^0-9]("+highlight+")[^0-9]?(.*)")
-    var regex = new RegExp("(.*[:]*[^0-9])("+highlight+")([^0-9]?.*)")
+    var regex = new RegExp("(.*[^\d])("+highlight+")((?:[^\d]|$)(?:[0-9, ]*))")
     var match = regex.exec(title)
     var newTitle = match[1]+" <b>"+highlight+"</b>"
     if(match[3] != '')
-      return newTitle+","+match[3]
+      return newTitle+match[3]
     else
       return newTitle
   }
