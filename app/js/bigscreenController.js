@@ -12,6 +12,20 @@ liedbase.controller('BigscreenController', function ($sce, $scope, log, Liturgie
   })
 
   var formatTitle = function(title, highlight) {
+    
+    if(title.search(':') == -1)
+      return title
+    
+    // start by replacing *whitespaces with a single whitespace
+    title = title.replace(/ +/g, " ")
+    // split on ':'
+    var titleParts = title.split(':')
+    // remove whitespaces from second part 
+    titleParts[1] = titleParts[1].replace(/ /g, '')
+    // reassemble, replace comma's in second part by comma+whitespace
+    title = titleParts[0]+': '+titleParts[1].replace(/,/g, ', ')
+
+    // highlight the verse being displayed
     var regex = new RegExp("(.*[^\d])("+highlight+")((?:[^\d]|$)(?:[0-9, ]*))")
     var match = regex.exec(title)
     var newTitle = match[1]+" <b>"+highlight+"</b>"
@@ -20,25 +34,6 @@ liedbase.controller('BigscreenController', function ($sce, $scope, log, Liturgie
     else
       return newTitle
   }
-
-  console.log('1 levenslied 8: 1')
-  console.log(formatTitle('levenslied 8: 1', '1'))
-  console.log('1 levenslied 8: 1, 3')
-  console.log(formatTitle('levenslied 8: 1, 3', '1'))
-  console.log('3 levenslied 8: 1, 3')
-  console.log(formatTitle('levenslied 8: 1, 3', '3'))
-  console.log('3 levenslied 8: 1, 3, 5')
-  console.log(formatTitle('levenslied 8: 1, 3, 5', '3'))
-  console.log('1 levenslied 8: 1, 3, 5')
-  console.log(formatTitle('levenslied 8: 1, 3, 5', '1'))
-  console.log('5 levenslied 8: 1, 3, 5')
-  console.log(formatTitle('levenslied 8: 1, 3, 5', '5'))
-  console.log('1 levenslied 8: 1, 3, 5, 12')
-  console.log(formatTitle('levenslied 8: 1, 3, 5, 12', '1'))
-  console.log('3 levenslied 8: 1, 3, 5, 12')
-  console.log(formatTitle('levenslied 8: 1, 3, 5, 12', '3'))
-  console.log('12 levenslied 8: 1, 3, 5, 12')
-  console.log(formatTitle('levenslied 8: 1, 3, 5, 12', '12'))
 
   $scope.getHtml = function(data) {
     return $sce.trustAsHtml(data)
