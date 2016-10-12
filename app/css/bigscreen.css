@@ -1,0 +1,12 @@
+div .bigscreen h3 {
+	font-size: 50pt;
+  margin-left: 100px;
+  margin-top: 100px;
+}
+
+div .bigscreen div {
+	font-size: 40pt;
+  margin-left: 150px;
+  margin-top: 50px;
+}
+
