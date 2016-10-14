@@ -91,6 +91,7 @@
         
         <div class="col-md-4" ng-controller="PreviewController">
           <h4>Resultaat</h4>
+          <button ng-click="generate()">Genereer PPTX</button>
           <table class="table table-striped">
             <tr ng-repeat="onderdeel in liturgie track by $index">
               <td ng-show="onderdeel.valid">

@@ -1,18 +1,30 @@
+var officegen = require('officegen');
+var fs = require('fs');
+var doc = officegen('pptx');
+var out = fs.createWriteStream('out.pptx');
+
 liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) {
   $scope.liturgie = Liturgie;
 
-  $scope.getHtml = function(data) {
+  $scope.getHtml = function (data) {
     return $sce.trustAsHtml(data)
   }
 
-  const {ipcRenderer} = require('electron')
+  $scope.generate = function () {
+    // https://www.npmjs.com/package/officegen#a3
+    doc.generate(out);
+  }
 
-  $scope.showThis = function(liturgieIndex, documentIndex) {
-    var data = {}
-    data.title = $scope.liturgie[liturgieIndex].regel
-    data.text = $scope.liturgie[liturgieIndex].documents[documentIndex].text
-    data.highlight = $scope.liturgie[liturgieIndex].documents[documentIndex].verse
-    ipcRenderer.send('display', data)
-  } 
+  doc.on('finalize', function (written) {
+    console.log('Finish to create a PowerPoint file.\nTotal bytes created: ' + written + '\n');
+  });
+
+  doc.on('error', function (err) {
+    console.log(err);
+  });
+
+  out.on('close', function () {
+    console.log('Finished to create the PPTX file!');
+  });
 
 })
