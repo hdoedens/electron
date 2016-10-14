@@ -6,23 +6,6 @@ const BrowserWindow = electron.BrowserWindow
 // use pouchDB
 var PouchDB = require('pouchdb');
 
-var bigScreenWindow
-
-const {ipcMain} = require('electron')
-
-ipcMain.on('display', (event, data) => {
-  bigScreenWindow.webContents.send('display', data)
-})
-
-ipcMain.on('toggle-bigscreen', (event, data) => {
-  if(bigScreenWindow.isVisible()) {
-    bigScreenWindow.hide()
-  } else {
-    bigScreenWindow.show()
-    bigScreenWindow.setFullScreen(true);
-  }
-})
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -38,7 +21,7 @@ function createMainWindow() {
   mainWindow.loadURL('file://' + __dirname + '/index.html')
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -49,23 +32,8 @@ function createMainWindow() {
   })
 }
 
-function createBigScreenWindow() {
-  // create the window for the big screen
-  bigScreenWindow = new BrowserWindow({
-    width: 1600,
-    height: 1200,
-    show: true
-  })
-
-  // bigScreenWindow.setFullScreen(true);
-  bigScreenWindow.webContents.openDevTools()
-
-  bigScreenWindow.loadURL('file://' + __dirname + '/bigScreen.html')
-}
-
 function createWindows () {
   createMainWindow()
-  createBigScreenWindow()
   global.sharedObject = {};
 }
 
