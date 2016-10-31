@@ -11,7 +11,11 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   }
 
   $scope.generate = function () {
-    // https://www.npmjs.com/package/officegen#a3
+    $scope.liturgie.forEach(function(element) {
+      element.documents.forEach(function(document) {
+        makeSongSlide(element.regel, document.text)
+      }, this);
+    }, this);
     doc.generate(out);
   }
 
@@ -26,5 +30,11 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   out.on('close', function () {
     console.log('Finished to create the PPTX file!');
   });
+
+  var makeSongSlide = function(title, text) {
+    var slide = doc.makeNewSlide();
+    slide.addText(title, 20, 20)
+    slide.addText(text, 20, 80)
+  }
 
 })
