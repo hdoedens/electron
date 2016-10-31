@@ -13,7 +13,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   $scope.generate = function () {
     $scope.liturgie.forEach(function(element) {
       element.documents.forEach(function(document) {
-        makeSongSlide(element.regel, document.text)
+        makeSongSlide(element.regel, document.verse, document.text)
       }, this);
     }, this);
     doc.generate(out);
@@ -31,10 +31,35 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
     console.log('Finished to create the PPTX file!');
   });
 
-  var makeSongSlide = function(title, text) {
+  var makeSongSlide = function(title, highlight, text) {
     var slide = doc.makeNewSlide();
     slide.addText(title, 20, 20)
+    slide.addText(highlight, 20, 40)
     slide.addText(text, 20, 80)
+  }
+
+  var formatTitle = function(title, highlight) {
+    
+    if(title.search(':') == -1)
+      return title
+    
+    // start by replacing *whitespaces with a single whitespace
+    title = title.replace(/ +/g, " ")
+    // split on ':'
+    var titleParts = title.split(':')
+    // remove whitespaces from second part 
+    titleParts[1] = titleParts[1].replace(/ /g, '')
+    // reassemble, replace comma's in second part by comma+whitespace
+    title = titleParts[0]+': '+titleParts[1].replace(/,/g, ', ')
+
+    // highlight the verse being displayed
+    var regex = new RegExp("(.*[^\d])("+highlight+")((?:[^\d]|$)(?:[0-9, ]*))")
+    var match = regex.exec(title)
+    var newTitle = match[1]+" <b>"+highlight+"</b>"
+    if(match[3] != '')
+      return newTitle+match[3]
+    else
+      return newTitle
   }
 
 })
