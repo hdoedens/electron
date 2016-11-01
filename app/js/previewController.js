@@ -33,12 +33,16 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
 
   var makeSongSlide = function(title, highlight, text) {
     var slide = doc.makeNewSlide();
-    slide.addText(title, 20, 20)
-    slide.addText(highlight, 20, 40)
-    slide.addText(text, 20, 80)
+    var titleInParts = getTitleParts(title, highlight)
+    console.log(titleInParts)
+    slide.addText( [
+      { text: titleInParts[0], options: { bold: false, font_size: 24 } },
+      { text: titleInParts[1]+"", options: { bold: true, font_size: 24 } },
+      { text: titleInParts[2], options: { bold: false, font_size: 24 } }
+    ], { cx: "90%" } );
   }
 
-  var formatTitle = function(title, highlight) {
+  var getTitleParts = function(title, highlight) {
     
     if(title.search(':') == -1)
       return title
@@ -52,14 +56,17 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
     // reassemble, replace comma's in second part by comma+whitespace
     title = titleParts[0]+': '+titleParts[1].replace(/,/g, ', ')
 
-    // highlight the verse being displayed
+    // extract the verse being displayed
     var regex = new RegExp("(.*[^\d])("+highlight+")((?:[^\d]|$)(?:[0-9, ]*))")
     var match = regex.exec(title)
-    var newTitle = match[1]+" <b>"+highlight+"</b>"
+    var titleInParts = []
+    titleInParts.push(match[1])
+    titleInParts.push(highlight)
     if(match[3] != '')
-      return newTitle+match[3]
+      titleInParts.push(match[3])
     else
-      return newTitle
+      titleInParts.push('')
+    return titleInParts
   }
 
 })
