@@ -1,10 +1,10 @@
-var officegen = require('officegen');
 var fs = require('fs');
-var doc = officegen('pptx');
 var out = fs.createWriteStream('out.pptx');
+var officegen = require('officegen');
 
 liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) {
   $scope.liturgie = Liturgie;
+  var doc = officegen('pptx');
 
   $scope.getHtml = function (data) {
     return $sce.trustAsHtml(data)
@@ -13,7 +13,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   $scope.generate = function () {
     $scope.liturgie.forEach(function (element) {
       element.documents.forEach(function (document) {
-        makeSongSlide(element.regel, document.verse, document.text)
+        makeSongSlide(doc, element.regel, document.verse, document.text)
       }, this);
     }, this);
     doc.generate(out, {
@@ -30,15 +30,20 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
     console.log('Finished to create the PPTX file!');
   });
 
-  var makeSongSlide = function (title, highlight, text) {
+  var makeSongSlide = function (doc, title, highlight, text) {
     var slide = doc.makeNewSlide();
     var titleInParts = getTitleParts(title, highlight)
-    console.log(titleInParts)
-    slide.addText([
-      { text: titleInParts[0], options: { bold: false, font_size: 24 } },
-      { text: titleInParts[1].toString(), options: { bold: true, font_size: 24 } },
-      { text: titleInParts[2], options: { bold: false, font_size: 24 } }
-    ], { cx: "90%" });
+    if(titleInParts.length == 3) {
+      slide.addText([
+        { text: titleInParts[0], options: { bold: false, font_size: 24 } },
+        { text: titleInParts[1].toString(), options: { bold: true, font_size: 24 } },
+        { text: titleInParts[2], options: { bold: false, font_size: 24 } }
+      ], { cx: "90%" });
+    } else {
+      slide.addText([
+        { text: titleInParts, options: { bold: false, font_size: 24 } }
+      ], { cx: "90%" });
+    }
   }
 
   var getTitleParts = function (title, highlight) {
