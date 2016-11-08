@@ -38,12 +38,13 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
         { text: titleInParts[0], options: { bold: false, font_size: 24 } },
         { text: titleInParts[1].toString(), options: { bold: true, font_size: 24 } },
         { text: titleInParts[2], options: { bold: false, font_size: 24 } }
-      ], { cx: "90%" });
+      ], { x: 20, y: 30, cx: "90%" });
     } else {
       slide.addText([
         { text: titleInParts + ': ' + highlight, options: { bold: false, font_size: 24 } }
       ], { cx: "90%" });
     }
+    slide.addText( text, { cx: "90%", x: 20, y: 80, font_size: 24})
   }
 
   var getTitleParts = function (title, highlight) {
