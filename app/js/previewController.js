@@ -13,7 +13,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   $scope.generate = function () {
     $scope.liturgie.forEach(function (element) {
       element.documents.forEach(function (document) {
-        makeSongSlide(doc, element.regel, document.verse, document.text)
+        makeSongSlide(doc, element.title, document.verse, document.text)
       }, this);
     }, this);
     doc.generate(out, {
@@ -41,7 +41,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
       ], { cx: "90%" });
     } else {
       slide.addText([
-        { text: titleInParts, options: { bold: false, font_size: 24 } }
+        { text: titleInParts + ': ' + highlight, options: { bold: false, font_size: 24 } }
       ], { cx: "90%" });
     }
   }

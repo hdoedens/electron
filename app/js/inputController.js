@@ -145,6 +145,11 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
             for (i in res.docs) {
               var currentDoc = res.docs[i]
               $scope.liturgie[index].documents.push(currentDoc)
+              if(i == 0) {
+                $scope.liturgie[index].title = $scope.liturgie[index].regel + ': ' + currentDoc.verse;
+              } else {
+                $scope.liturgie[index].title += ', ' + currentDoc.verse;
+              }
             }
           }
           // keep a subset of documents
@@ -155,11 +160,14 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
               if (keepIndex > -1) {
                 $scope.liturgie[index].documents.push(currentDoc)
                 keep.remove(currentDoc.verse)
-                // log.debug(currentDoc)
+              }
+              if(i == 0) {
+                $scope.liturgie[index].title = $scope.liturgie[index].regel + ': ' + currentDoc.verse;
+              } else {
+                $scope.liturgie[index].title += ', ' + currentDoc.verse;
               }
             }
             if (keep.length > 0) {
-              // log.debug('some verses were not found: ' + keep)
               $scope.liturgie[index].documents.push({ note: "De volgende verzen konden niet worden gevonden: " + keep })
             }
           }
