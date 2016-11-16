@@ -44,7 +44,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
         { text: titleInParts + ': ' + highlight, options: { bold: false, font_size: 24 } }
       ], { cx: "90%" });
     }
-    slide.addText( text, { cx: "90%", x: 20, y: 80, font_size: 24})
+    slide.addText( text, { cx: "90%", cy: "80%", x: 20, y: 80, font_size: 24})
   }
 
   var getTitleParts = function (title, highlight) {

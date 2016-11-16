@@ -2,6 +2,7 @@
 	{
 		"icon": "fa-music",
 		"getFromDb": true,
+		"type": "song",
 		"regexen": [
 			"^[Gg]ezang [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
 			"^[Pp]salm [\\d]+[abcd]? *(: *[\\d]+[abcd]? *(, *[\\d]+[abcd]? *)*)? *$",
@@ -11,13 +12,8 @@
 		]
 	},
 	{
-		"icon": "fa-video-camera",
-		"regexen": [
-			"^[Vv]ideo *$"
-		]
-	},
-	{
 		"icon": "fa-circle",
+		"type": "mixed",
 		"regexen": [
 			"([eE]inde)?.*[mM]orgendienst",
 			"([eE]inde)?.*[mM]iddagdienst",
@@ -30,30 +26,35 @@
 	},
 	{
 		"icon": "fa-black-tie",
+		"type": "mixed",
 		"regexen": [
 			"^[vV]oorganger|[dD]ominee|[wW]el[ck]om *$"
 		]
 	},
 	{
 		"icon": "fa-calendar",
+		"type": "mixed",
 		"regexen": [
 			"^[Aa]genda *$"
 		]
 	},
 	{
 		"icon": "fa-hand-paper-o",
+		"type": "mixed",
 		"regexen": [
 			"^[vV]otum *$"
 		]
 	},
 	{
 		"icon": "fa-trash",
+		"type": "mixed",
 		"regexen": [
 			"^[sS]choonmaak *$"
 		]
 	},
 	{
 		"icon": "fa-eur",
+		"type": "mixed",
 		"regexen": [
 			"^([cC]|[kK])olle[ck]te.*$"
 		]
@@ -61,6 +62,7 @@
 	{
 		"icon": "fa-book",
 		"getFromDb": true,
+		"type": "scipture",
 		"regexen": [
 			"[gG]enesis *[\\d]+ *(: *[\\d]+ *)? *(- *[\\d]+)? *$",
 			"[eE]xodus *[\\d]+ *(: *[\\d]+ *)? *(- *[\\d]+)? *$",
