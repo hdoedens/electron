@@ -3,7 +3,7 @@ liedbase.controller('LevensliederenController', function ($sce, $scope, $http, l
 
     $scope.grab = function () {
         for (p = 1; p <= 150; p++) {
-            log.debug('trying to grab lied: ' + p)
+            log.debug('Proberen te downloaden van lied: ' + p)
             $http.get("http://www.levensliederen.net/portfolio/psalm-" + p).then(function (response) {
                 // success
                 var data = response.data,
@@ -38,7 +38,7 @@ liedbase.controller('LevensliederenController', function ($sce, $scope, $http, l
                     status = response.status,
                     header = response.header,
                     config = response.config;
-                log.debug(status)
+                // log.debug(status)
                 log.debug('lied ' + p + ' niet gevonden, verder naar volgende lied')
             });
         }

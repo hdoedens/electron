@@ -20,9 +20,10 @@
     <script src="./js/liturgieApp.js" type="text/javascript"></script>
     <script src="./js/databaseFactory.js" type="text/javascript"></script>
     <script src="./js/liturgieFactory.js" type="text/javascript"></script>
-    <script src="./js/rawInputController.js" type="text/javascript"></script>
-    <script src="./js/inputController.js" type="text/javascript"></script>
-    <script src="./js/previewController.js" type="text/javascript"></script>
+    <script src="./js/controllers/rawInputController.js" type="text/javascript"></script>
+    <script src="./js/controllers/inputController.js" type="text/javascript"></script>
+    <script src="./js/controllers/previewController.js" type="text/javascript"></script>
+    <script src="./js/controllers/accordionController.js" type="text/javascript"></script>
     <script src="./js/typeAhead.js" type="text/javascript"></script>
     <script src="./js/grabbers/levensliederenController.js" type="text/javascript"></script>
 
@@ -39,21 +40,34 @@
     <div class="container-fluid" ng-app="liedbase">
 
       <div class="row">
-        <div class="col-md-4" ng-controller="RawInputController">
-          <form name="rawInputForm" class="css-form" novalidate>
-            <div class="form-group">
-              <h4>Volledige liturie</h4>
-              <textarea ng-model="rawInput" rows="15" class="form-control" placeholder="Plak hier de volledige liturgie"></textarea>
-            </div>
-            <input type="submit" ng-click="copyRawInput(rawInput)" value="Inlezen" />
-            <span ng-show="rawInputError" class="alert alert-info" ng-bind="rawInputError"></span>
-          </form>
-          <div ng-controller="LevensliederenController">
-            <button ng-click="grab()">grijp levensliederen</button>
-            <button ng-click="exportAll()">levensliederen exporteren</button>
-            <div ng-bind-html="getExport()"></div>
+        <div class="col-md-3">
+          <p />
+          <div ng-controller="AccordionController">
+            <uib-accordion close-others="false">
+              <div uib-accordion-group class="panel-default" is-open="status.tekstinvoer.open">
+                <uib-accordion-heading>Tekstinvoer <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.tekstinvoer.open, 'glyphicon-chevron-right': !status.tekstinvoer.open}"></i></uib-accordion-heading>
+                <div ng-controller="RawInputController">
+                  <form name="rawInputForm" class="css-form" novalidate>
+                    <div class="form-group">
+                      <h4>Volledige liturie</h4>
+                      <textarea ng-model="rawInput" rows="15" class="form-control" placeholder="Plak hier de volledige liturgie"></textarea>
+                    </div>
+                    <input type="submit" ng-click="copyRawInput(rawInput)" value="Inlezen" />
+                    <span ng-show="rawInputError" class="alert alert-info" ng-bind="rawInputError"></span>
+                  </form>
+                </div>
+              </div>
+              <div uib-accordion-group class="panel-default" is-open="status.opties.open">
+                <uib-accordion-heading>Opties <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.opties.open, 'glyphicon-chevron-right': !status.opties.open}"></i></uib-accordion-heading>
+                <div ng-controller="LevensliederenController">
+                  <button ng-click="grab()">grijp levensliederen</button>
+                  <button ng-click="exportAll()">levensliederen exporteren</button>
+                </div>
+              </div>
+            </uib-accordion>
           </div>
         </div>
+
         <div class="col-md-4" ng-controller="InputController">
           <h4>Afzonderlijke onderdelen</h4>
           <form name="regelForm" class="css-form" novalidate>
@@ -89,7 +103,7 @@
           </form>
         </div>
         
-        <div class="col-md-4" ng-controller="PreviewController">
+        <div class="col-md-5" ng-controller="PreviewController">
           <h4>Resultaat</h4>
           <button ng-click="generate()">Genereer PPTX</button>
           <table class="table table-striped">
