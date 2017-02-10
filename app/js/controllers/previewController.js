@@ -4,19 +4,20 @@ var officegen = require('officegen');
 
 liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) {
   $scope.liturgie = Liturgie;
-  var doc = officegen('pptx');
 
   $scope.getHtml = function (data) {
     return $sce.trustAsHtml(data)
   }
 
   $scope.generate = function () {
+    var doc = officegen('pptx');
     $scope.liturgie.forEach(function (element) {
       element.documents.forEach(function (document) {
         makeSongSlide(doc, element.title, document.verse, document.text)
       }, this);
     }, this);
-    doc.generate(out, {
+    
+    doc.generate(fs.createWriteStream('out.pptx'), {
       'finalize': function (written) {
         console.log('Finish to create a PowerPoint file.\nTotal bytes created: ' + written + '\n');
       },
