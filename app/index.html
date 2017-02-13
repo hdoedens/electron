@@ -26,6 +26,7 @@
     <script src="./js/controllers/accordionController.js" type="text/javascript"></script>
     <script src="./js/typeAhead.js" type="text/javascript"></script>
     <script src="./js/grabbers/levensliederenController.js" type="text/javascript"></script>
+    <script src="./js/grabbers/bijbelController.js" type="text/javascript"></script>
 
     <!-- Insert this line after script imports -->
     <script>if (window.module) module = window.module;</script>
@@ -59,6 +60,9 @@
               </div>
               <div uib-accordion-group class="panel-default" is-open="status.opties.open">
                 <uib-accordion-heading>Opties <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.opties.open, 'glyphicon-chevron-right': !status.opties.open}"></i></uib-accordion-heading>
+                <div ng-controller="BijbelController">
+                  <button ng-click="grab()">Vul database met bijbelboeken</button>
+                </div>
                 <div ng-controller="LevensliederenController">
                   <button ng-click="grab()">Vul database met levensliederen</button>
                 </div>
