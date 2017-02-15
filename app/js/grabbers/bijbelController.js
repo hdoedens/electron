@@ -5,23 +5,31 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
 
         $http.get('assets/bible/BGT/genesis.txt').success(function(data){
             var lines = data.split(/\r?\n/g)
-            dbLine = ""
+            heading = ""
+            chapter = ""
             for(var i=0; i<lines.length; i++) {
                 var line = lines[i];
                 if(line == "")
                     continue;
                 if(line.startsWith("=")) {
-                    dbLine += line.substring(1) + "\n"
+                    heading += line.substring(1) + "\n"
                     continue;
                 } 
                 if(line.startsWith("#")) {
-                    dbLine += line.substring(1) + ' '
+                    chapter += line.substring(1) + ' '
                     continue;
                 }
 
-                dbLine += line
-                console.log(dbLine);
-                dbLine = "";
+                lineparts = line.split(/(\d+)/)
+                for(var p=1; p<lineparts.length; p++) {
+                    if(heading != "") console.log(heading)
+                    if(chapter != "") console.log('Hoofdstuk '+chapter)
+                    console.log(lineparts[p])
+
+                    // clear heading and chapter
+                    heading = ""
+                    chapter = ""
+                }
             
             }
         });
