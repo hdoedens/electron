@@ -114,14 +114,17 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
     // get individual verses to know which ones to keep
     // split everything after the : on ,; if no , keep the one verse
     var keep = []
+    var keepStyle = null
     if (line.indexOf(':') != -1) {
       var tmpKeep = line.match(/:(.*)/)[1]
       if (tmpKeep.indexOf(',') != -1) {
+        keepStyle = 'comma'
         keep = tmpKeep.split(',')
         // strip all entries from spaces
         keep = keep.map(Function.prototype.call, String.prototype.trim)
       } else {
         keep.push(tmpKeep)
+        keepStyle = 'dash'
       }
       // convert all keeper string to int
       for(var i=0; i<keep.length; i++) { keep[i] = parseInt(keep[i], 10); } 
@@ -156,19 +159,26 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
           else {
             for (i in res.docs) {
               var currentDoc = res.docs[i]
-              var keepIndex = keep.indexOf(currentDoc.verse)
-              if (keepIndex > -1) {
-                $scope.liturgie[index].documents.push(currentDoc)
-                keep.remove(currentDoc.verse)
+
+              // switch on keepStyle
+              if(keepStyle == 'comma') {
+                var keepIndex = keep.indexOf(currentDoc.verse)
+                if (keepIndex > -1) {
+                  keep.remove(currentDoc.verse)
+                }
+                if (keep.length > 0) {
+                  $scope.liturgie[index].documents.push({ note: "De volgende verzen konden niet worden gevonden: " + keep })
+                }
+              } else if (keepStyle == 'dash') {
+                if(currentDoc.verse >= verseLimits.min && currentDoc.verse <= verseLimits.max) {
+                  $scope.liturgie[index].documents.push(currentDoc)
+                }
               }
               if(i == 0) {
                 $scope.liturgie[index].title = $scope.liturgie[index].regel + ': ' + currentDoc.verse;
               } else {
                 $scope.liturgie[index].title += ', ' + currentDoc.verse;
               }
-            }
-            if (keep.length > 0) {
-              $scope.liturgie[index].documents.push({ note: "De volgende verzen konden niet worden gevonden: " + keep })
             }
           }
         }
