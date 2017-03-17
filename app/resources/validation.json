@@ -62,7 +62,7 @@
 	{
 		"icon": "fa-book",
 		"getFromDb": true,
-		"type": "scipture",
+		"type": "scripture",
 		"regexen": [
 			"[gG]enesis *[\\d]+ *(: *[\\d]+ *)? *(- *[\\d]+)? *$",
 			"[eE]xodus *[\\d]+ *(: *[\\d]+ *)? *(- *[\\d]+)? *$",

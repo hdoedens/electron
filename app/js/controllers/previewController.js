@@ -40,9 +40,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
         }, this);
       }
       if(element.icon == "fa-book") {
-        element.documents.forEach(function (document) {
-          makeBookSlide(doc, element);
-        }, this);
+        makeBookSlide(doc, element);
       }
     }, this);
     

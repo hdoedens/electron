@@ -70,6 +70,7 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
         if (valid) {
           // gna gna, set the icon and the type here
           $scope.liturgie[id].icon = $scope.validationRules[n].icon;
+          $scope.liturgie[id].type = $scope.validationRules[n].type;
           $scope.liturgie[id].getFromDb = $scope.validationRules[n].getFromDb
           return true;
         }
@@ -114,17 +115,14 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
     // get individual verses to know which ones to keep
     // split everything after the : on ,; if no , keep the one verse
     var keep = []
-    var keepStyle = null
     if (line.indexOf(':') != -1) {
       var tmpKeep = line.match(/:(.*)/)[1]
       if (tmpKeep.indexOf(',') != -1) {
-        keepStyle = 'comma'
         keep = tmpKeep.split(',')
         // strip all entries from spaces
         keep = keep.map(Function.prototype.call, String.prototype.trim)
       } else {
         keep.push(tmpKeep)
-        keepStyle = 'dash'
       }
       // convert all keeper string to int
       for(var i=0; i<keep.length; i++) { keep[i] = parseInt(keep[i], 10); } 
@@ -148,10 +146,16 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
             for (i in res.docs) {
               var currentDoc = res.docs[i]
               $scope.liturgie[index].documents.push(currentDoc)
-              if(i == 0) {
-                $scope.liturgie[index].title = $scope.liturgie[index].regel + ': ' + currentDoc.verse;
-              } else {
-                $scope.liturgie[index].title += ', ' + currentDoc.verse;
+              if($scope.liturgie[index].type == "song") {
+                if(i == 0) {
+                  $scope.liturgie[index].title = $scope.liturgie[index].regel + ': ' + currentDoc.verse;
+                } else {
+                  $scope.liturgie[index].title += ', ' + currentDoc.verse;
+                }
+              } else if($scope.liturgie[index].type == "scripture") {
+                // remove multiple whitespaces
+                title = $scope.liturgie[index].regel.replace(/ +/g, " ");
+                $scope.liturgie[index].title = capitalizeFirstLetter( $scope.liturgie[index].regel);
               }
             }
           }
@@ -160,8 +164,8 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
             for (i in res.docs) {
               var currentDoc = res.docs[i]
 
-              // switch on keepStyle
-              if(keepStyle == 'comma') {
+              // switch on liturgiepart type
+              if($scope.liturgie[index].type == 'song') {
                 var keepIndex = keep.indexOf(currentDoc.verse)
                 if (keepIndex > -1) {
                   keep.remove(currentDoc.verse)
@@ -174,7 +178,7 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
                 } else {
                   $scope.liturgie[index].title += ', ' + currentDoc.verse;
                 }
-              } else if (keepStyle == 'dash') {
+              } else if ($scope.liturgie[index].type == 'scripture') {
                 if(currentDoc.verse >= verseLimits.min && currentDoc.verse <= verseLimits.max) {
                   $scope.liturgie[index].documents.push(currentDoc)
                 }
@@ -188,6 +192,8 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
                 // reassemble, replace comma's in second part by comma+whitespace
                 title = titleParts[0].trim() + ': ' + titleParts[1].replace(/-/g, ' - ')
                 $scope.liturgie[index].title = capitalizeFirstLetter(title);
+              } else {
+                console.log("[ERROR] Unknown liturgie type");
               }
             }
           }
