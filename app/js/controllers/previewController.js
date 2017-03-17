@@ -6,6 +6,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   $scope.liturgie = Liturgie;
 
   $scope.getHtml = function (onderdeel) {
+    // for debugging
     console.log(onderdeel)
     if(onderdeel.icon == "fa-book") {
       return $sce.trustAsHtml(getBookContents(onderdeel));
@@ -17,8 +18,14 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
 
   var getBookContents = function(onderdeel) {
     data = "";
+    if(onderdeel.documents.length == 1 && onderdeel.documents[0].note != null) {
+      return "<i>" + onderdeel.documents[0].note + "</i>";
+    } 
     for(i=0;i<onderdeel.documents.length;i++) {
-      data += onderdeel.documents[i].verse + ' ' + onderdeel.documents[i].text
+      doc = onderdeel.documents[i];
+      if(doc.heading != "")
+        data += "<p><i>" + doc.heading + "</i></p>";
+      data += doc.verse + ' ' + doc.text
     }
     return data;
   }

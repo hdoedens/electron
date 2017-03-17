@@ -22,15 +22,13 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
 
                 lineparts = line.split(/(\d+)/)
                 for(var p=2; p<lineparts.length; p+=2) {
-                    if(heading != "") console.log(heading)
-                        
-                    console.log('Vers: ' + lineparts[p-1] + ' ' + lineparts[p])
                     var doc = {
                         "_id": "bgt_" + 'genesis' + "_" + chapter + "_" + lineparts[p-1],
                         "book": 'genesis',
                         "chapter": parseInt(chapter),
                         "verse": parseInt(lineparts[p-1]),
-                        "text": lineparts[p]
+                        "text": lineparts[p],
+                        "heading": heading
                     }
                     dbFactory.put(doc)
                     // clear heading and chapter
