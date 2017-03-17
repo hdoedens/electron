@@ -178,6 +178,16 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
                 if(currentDoc.verse >= verseLimits.min && currentDoc.verse <= verseLimits.max) {
                   $scope.liturgie[index].documents.push(currentDoc)
                 }
+                // start by replacing *whitespaces with a single whitespace
+                title = $scope.liturgie[index].regel
+                title = title.replace(/ +/g, " ")
+                // split on ':'
+                var titleParts = title.split(':')
+                // remove whitespaces from second part 
+                titleParts[1] = titleParts[1].replace(/ /g, '')
+                // reassemble, replace comma's in second part by comma+whitespace
+                title = titleParts[0].trim() + ': ' + titleParts[1].replace(/-/g, ' - ')
+                $scope.liturgie[index].title = capitalizeFirstLetter(title);
               }
             }
           }
@@ -194,6 +204,10 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
     $scope.liturgie[index].valid = false
     $scope.liturgie[index].documents = []
     $scope.liturgie[index].icon = 'fa-question'
+  }
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
 })
