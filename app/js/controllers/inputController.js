@@ -169,15 +169,15 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
                 if (keep.length > 0) {
                   $scope.liturgie[index].documents.push({ note: "De volgende verzen konden niet worden gevonden: " + keep })
                 }
+                if(i == 0) {
+                  $scope.liturgie[index].title = $scope.liturgie[index].regel + ': ' + currentDoc.verse;
+                } else {
+                  $scope.liturgie[index].title += ', ' + currentDoc.verse;
+                }
               } else if (keepStyle == 'dash') {
                 if(currentDoc.verse >= verseLimits.min && currentDoc.verse <= verseLimits.max) {
                   $scope.liturgie[index].documents.push(currentDoc)
                 }
-              }
-              if(i == 0) {
-                $scope.liturgie[index].title = $scope.liturgie[index].regel + ': ' + currentDoc.verse;
-              } else {
-                $scope.liturgie[index].title += ', ' + currentDoc.verse;
               }
             }
           }

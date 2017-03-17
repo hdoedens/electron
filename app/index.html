@@ -113,15 +113,7 @@
             <tr ng-repeat="onderdeel in liturgie track by $index">
               <td ng-show="onderdeel.valid">
                 <h4 ng-bind="onderdeel.regel"></h4>
-                <div ng-repeat="document in onderdeel.documents track by $index">
-                  <div ng-show="document.text">
-                    <strong>
-                      <span ng-bind="document.verse"></span>
-                    </strong>
-                    <div ng-bind-html="getHtml(document.text)"></div>
-                  </div>
-                  <div ng-show="document.note"><hr /><i><span ng-bind="document.note"></span></i></div>
-                </div>
+                <div ng-bind-html="getHtml(onderdeel)"></div>
               </td>
             </tr>
           </table>

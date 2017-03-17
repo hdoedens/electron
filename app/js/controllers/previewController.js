@@ -5,16 +5,45 @@ var officegen = require('officegen');
 liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) {
   $scope.liturgie = Liturgie;
 
-  $scope.getHtml = function (data) {
-    return $sce.trustAsHtml(data)
+  $scope.getHtml = function (onderdeel) {
+    console.log(onderdeel)
+    if(onderdeel.icon == "fa-book") {
+      return $sce.trustAsHtml(getBookContents(onderdeel));
+    }
+    if(onderdeel.icon == "fa-music") {
+      return $sce.trustAsHtml(getSongPreview(onderdeel));
+    }
+  }
+
+  var getBookContents = function(onderdeel) {
+    data = "";
+    for(i=0;i<onderdeel.documents.length;i++) {
+      data += onderdeel.documents[i].verse + ' ' + onderdeel.documents[i].text
+    }
+    return data;
+  }
+
+  var getSongPreview = function(onderdeel) {
+    data = "";
+    if(onderdeel.documents.length == 1 && onderdeel.documents[0].note != null) {
+      data = "<i>" + onderdeel.documents[0].note + "</i>";
+    } 
+    return data;
   }
 
   $scope.generate = function () {
     var doc = officegen('pptx');
     $scope.liturgie.forEach(function (element) {
-      element.documents.forEach(function (document) {
-        makeSongSlide(doc, element.title, document.verse, document.text)
-      }, this);
+      if(element.icon == "fa-music") {
+        element.documents.forEach(function (document) {
+          makeSongSlide(doc, element.title, document.verse, document.text)
+        }, this);
+      }
+      if(element.icon == "fa-book") {
+        element.documents.forEach(function (document) {
+          makeBookSlide(doc, element);
+        }, this);
+      }
     }, this);
     
     doc.generate(fs.createWriteStream('out.pptx'), {
@@ -46,6 +75,15 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
       ], { cx: "90%" });
     }
     slide.addText( text, { cx: "90%", cy: "80%", x: 20, y: 80, font_size: 24})
+  }
+
+  var makeBookSlide = function(doc, element) {
+    var slide = doc.makeNewSlide();
+
+    slide.addText([
+      { text: element.title, options: { bold: false, font_size: 24 } }
+    ], { cx: "90%" });
+    slide.addText( getBookContents(element), { cx: "90%", cy: "80%", x: 20, y: 80, font_size: 24}) 
   }
 
   var getTitleParts = function (title, highlight) {
