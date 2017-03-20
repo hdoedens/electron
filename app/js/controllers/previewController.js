@@ -24,7 +24,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
     for(i=0;i<onderdeel.documents.length;i++) {
       doc = onderdeel.documents[i];
       if(doc.heading != "")
-        data += "<p><i>" + doc.heading + "</i></p>";
+        data += "<h5><i>" + doc.heading.replace("\n", "<br />") + "</i></h5>";
       data += doc.verse + ' ' + doc.text
     }
     return data;
