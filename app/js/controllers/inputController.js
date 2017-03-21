@@ -133,8 +133,8 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
     if ($scope.liturgie[index].getFromDb) {
       // get all documents from the chapter
       dbFactory.find({
-        selector: { book: book, chapter: chapter },
-        sort: ['chapter', 'verse']
+        selector: { book: book, chapter: chapter, verse: {'$gt': null} },
+        sort: ['book', 'chapter', 'verse']
       }).then(function (res) {
         // Update UI (almost) instantly
         $scope.liturgie[index].documents = []

@@ -7,8 +7,12 @@ liedbase.factory('dbFactory', function (pouchDB, pouchDBDecorators, log) {
 
     db.createIndex({
       index: {
-        fields: ['chapter', 'verse']
+        fields: ['book', 'chapter', 'verse']
       }
+    }).then(function(res) {
+      console.log(res);
+    }).catch(function(err) {
+      console.log(err);
     });
 
     return db;
