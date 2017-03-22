@@ -92,12 +92,21 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
     text = text.replace(/<br \/>/gm, "\n");
     text = text.replace(/<h5>/gm, "\n");
     text = text.replace(/<\/h5>/gm, '');
-    text = text.replace(/<\/?i>/gm, '');
 
     slide.addText([
       { text: element.title, options: { bold: false, font_size: 24 } }
     ], { cx: "90%" });
-    slide.addText( text, { cx: "90%", cy: "80%", x: 20, y: 80, font_size: 24}) 
+
+    textParts = text.split("</i>");
+    textParts.forEach(function(part) {
+      if(part.startsWith("<i>")) {
+        text = part.replace(/<\/?i>/gm, '');
+        slide.addText( text, { cx: "90%", cy: "80%", x: 20, y: 80, italic: true, font_size: 24}) 
+      } else {
+        text = part.replace(/<\/?i>/gm, '');
+        slide.addText( text, { cx: "90%", cy: "80%", x: 20, y: 80, italic: false, font_size: 24}) 
+      }
+    });
   }
 
   var getTitleParts = function (title, highlight) {
