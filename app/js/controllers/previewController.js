@@ -41,12 +41,12 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   $scope.generate = function () {
     var doc = officegen('pptx');
     $scope.liturgie.forEach(function (element) {
-      if(element.icon == "fa-music") {
+      if(element.type == "song") {
         element.documents.forEach(function (document) {
           makeSongSlide(doc, element.title, document.verse, document.text)
         }, this);
       }
-      if(element.icon == "fa-book") {
+      if(element.type == "scripture") {
         makeBookSlide(doc, element);
       }
     }, this);
