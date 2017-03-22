@@ -20,7 +20,7 @@
     "gulp": "^3.9.1",
     "jquery": "^3.1.0",
     "jqueryui": "^1.11.1",
-    "officegen": "^0.4.0",
+    "officegen": "^0.4.4",
     "pouchdb": "^6.1.2",
     "pouchdb-find": "^0.10.5",
     "remote": "^0.2.6"
