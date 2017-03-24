@@ -2,22 +2,22 @@ liedbase.controller('LevensliederenController', function ($sce, $scope, $http, l
     var verseText;
 
     $scope.grab = function () {
-        for (p = 1; p <= 150; p++) {
-            log.debug('Proberen te downloaden van lied: ' + p)
+        for (p = 1; p <= 10; p++) {
+            // log.debug('Proberen te downloaden van lied: ' + p)
             $http.get("http://www.levensliederen.net/portfolio/psalm-" + p).then(function (response) {
                 // success
                 var data = response.data,
                     status = response.status,
                     header = response.header,
                     config = response.config;
-                log.debug(status)
+                // log.debug(status)
                 var verses = $(data).find('.light-wrapper .inner div.one-half:first-of-type p')
                 var levenslied = $(data).find('h1.title.alignleft')[0].innerHTML.replace(/Psalm /, '')
 
-                log.debug(levenslied + ' gevonden, aantal verzen: ' + verses.length - 1)
+                // log.debug(levenslied + ' gevonden, aantal verzen: ' + verses.length - 1)
                 for (i = 1; i < verses.length; i++) {
                     var verseText = verses[i - 1].innerHTML
-                    log.debug('vers: ' + i + ': ' + verseText)
+                    // log.debug('vers: ' + i + ': ' + verseText)
                     if (verseText != "") {
                         var doc = {
                             "_id": "levenslied_" + levenslied + "_" + i,
@@ -39,7 +39,7 @@ liedbase.controller('LevensliederenController', function ($sce, $scope, $http, l
                     header = response.header,
                     config = response.config;
                 // log.debug(status)
-                log.debug('lied ' + p + ' niet gevonden, verder naar volgende lied')
+                log.debug('lied ' + config.url + ' niet gevonden, verder naar volgende lied')
             });
         }
     }

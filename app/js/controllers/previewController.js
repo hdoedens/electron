@@ -7,20 +7,19 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
 
   $scope.getHtml = function (onderdeel) {
     // for debugging
-    // console.log(onderdeel)
     if(onderdeel.type == "scripture") {
-      return $sce.trustAsHtml(getBookContents(onderdeel));
+      return $sce.trustAsHtml(getBookPreview(onderdeel));
     }
     if(onderdeel.type == "song") {
       return $sce.trustAsHtml(getSongPreview(onderdeel));
     }
   }
 
-  var getBookContents = function(onderdeel) {
+  var getBookPreview = function(onderdeel) {
     data = "";
     if(onderdeel.documents.length == 1 && onderdeel.documents[0].note != null) {
       return "<i>" + onderdeel.documents[0].note + "</i>";
-    } 
+    }
     for(i=0;i<onderdeel.documents.length;i++) {
       doc = onderdeel.documents[i];
       if(doc.heading != "")
@@ -33,8 +32,14 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   var getSongPreview = function(onderdeel) {
     data = "";
     if(onderdeel.documents.length == 1 && onderdeel.documents[0].note != null) {
-      data = "<i>" + onderdeel.documents[0].note + "</i>";
-    } 
+      return "<i>" + onderdeel.documents[0].note + "</i>";
+    }
+    // data += onderdeel.title
+    for(i=0;i<onderdeel.documents.length;i++) {
+      doc = onderdeel.documents[i];
+      data += "<p><b>Vers " + doc.verse + "</b></p>"
+      data += "<p>" + doc.text + "</p>"
+    }
     return data;
   }
 
@@ -85,13 +90,13 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   var makeBookSlide = function(doc, element) {
     var slide = doc.makeNewSlide();
 
-    text = getBookContents(element)
+    text = getBookPreview(element)
 
     // replace html tags with other ppt stuff
     // replace line-breaks
     text = text.replace(/<br \/>/gm, "\n");
-    text = text.replace(/<h5>/gm, "\n");
-    text = text.replace(/<\/h5>/gm, '');
+    text = text.replace(/<h5>/gm, "\n\n");
+    text = text.replace(/<\/h5>/gm, '\n');
     text = text.replace(/<i>/gm, '');
     text = text.replace(/<\/i>/gm, '');
 

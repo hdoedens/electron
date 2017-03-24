@@ -100,19 +100,21 @@
                 </div>
               </li>
             </ul>
-            <div>
+            <!--<div>
               <button type="submit" class="btn btn-success" ng-disabled="regelForm.$invalid">Verstuur</button>
-            </div>
+            </div>-->
           </form>
         </div>
         
         <div class="col-md-5" ng-controller="PreviewController">
           <h4>Resultaat</h4>
-          <button ng-click="generate()">Genereer PPTX</button>
+          <p>
+            <button class="btn btn-success" ng-click="generate()">Genereer PPTX</button>
+          </p>
           <table class="table table-striped">
             <tr ng-repeat="onderdeel in liturgie track by $index">
               <td ng-show="onderdeel.valid">
-                <h4 ng-bind="onderdeel.regel"></h4>
+                <h3 ng-bind="onderdeel.regel"></h3>
                 <div ng-bind-html="getHtml(onderdeel)"></div>
               </td>
             </tr>
