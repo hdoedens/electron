@@ -162,12 +162,15 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
           }
           // keep a subset of documents
           else {
-            for (i in res.docs) {
-              var currentDoc = res.docs[i]
+            if($scope.liturgie[index].type == 'song') {
+              for (i in res.docs) {
+                var currentDoc = res.docs[i]
+                // log.debug('keep: ' + keep)
+                // log.debug(currentDoc)
 
-              // switch on liturgiepart type
-              if($scope.liturgie[index].type == 'song') {
+                // switch on liturgiepart type
                 var keepIndex = keep.indexOf(currentDoc.verse)
+                log.debug('keepIndex: ' + keepIndex)
                 if (keepIndex > -1) {
                   keep.remove(currentDoc.verse)
                 }
@@ -179,7 +182,10 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
                 } else {
                   $scope.liturgie[index].title += ', ' + currentDoc.verse;
                 }
-              } else if ($scope.liturgie[index].type == 'scripture') {
+              }
+            } else if ($scope.liturgie[index].type == 'scripture') {
+              for (i in res.docs) {
+                var currentDoc = res.docs[i]
                 if(currentDoc.verse >= verseLimits.min && currentDoc.verse <= verseLimits.max) {
                   $scope.liturgie[index].documents.push(currentDoc)
                 }
@@ -193,9 +199,9 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
                 // reassemble, replace comma's in second part by comma+whitespace
                 title = titleParts[0].trim() + ': ' + titleParts[1].replace(/-/g, ' - ')
                 $scope.liturgie[index].title = capitalizeFirstLetter(title);
-              } else {
-                console.log("[ERROR] Unknown liturgie type");
               }
+            } else {
+              console.log("[ERROR] Unknown liturgie type");
             }
           }
         }
