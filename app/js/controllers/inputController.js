@@ -136,7 +136,7 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
         selector: { book: book, chapter: chapter, verse: {'$gt': null} },
         sort: ['book', 'chapter', 'verse']
       }).then(function (res) {
-        // Update UI (almost) instantly
+        // empty current document array
         $scope.liturgie[index].documents = []
         if (res.docs.length == 0) {
           $scope.liturgie[index].documents.push({ note: "Niets gevonden voor: " + $scope.liturgie[index].regel })
@@ -162,27 +162,32 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
           }
           // keep a subset of documents
           else {
+            // switch on liturgiepart type
             if($scope.liturgie[index].type == 'song') {
               for (i in res.docs) {
                 var currentDoc = res.docs[i]
-                // log.debug('keep: ' + keep)
-                // log.debug(currentDoc)
 
-                // switch on liturgiepart type
                 var keepIndex = keep.indexOf(currentDoc.verse)
-                log.debug('keepIndex: ' + keepIndex)
-                if (keepIndex > -1) {
-                  keep.remove(currentDoc.verse)
+                // current doc verse not found in keep, so throw away
+                if (keepIndex == -1) {
+                  continue;
                 }
-                if (keep.length > 0) {
-                  $scope.liturgie[index].documents.push({ note: "De volgende verzen konden niet worden gevonden: " + keep })
-                }
+                
+                // remove from keep to indicate we will save the doc
+                keep.remove(currentDoc.verse)
+                $scope.liturgie[index].documents.push(currentDoc)
+                
+                // on first doc, start building the title
                 if(i == 0) {
                   $scope.liturgie[index].title = $scope.liturgie[index].regel + ': ' + currentDoc.verse;
                 } else {
+                  // expand title
                   $scope.liturgie[index].title += ', ' + currentDoc.verse;
                 }
               }
+
+              if(keep.length > 0)
+                $scope.liturgie[index].documents.push({ note: "De volgende verzen konden niet worden gevonden: " + keep })
             } else if ($scope.liturgie[index].type == 'scripture') {
               for (i in res.docs) {
                 var currentDoc = res.docs[i]

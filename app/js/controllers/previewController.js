@@ -6,7 +6,6 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
   $scope.liturgie = Liturgie;
 
   $scope.getHtml = function (onderdeel) {
-    // for debugging
     if(onderdeel.type == "scripture") {
       return $sce.trustAsHtml(getBookPreview(onderdeel));
     }
@@ -31,12 +30,12 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
 
   var getSongPreview = function(onderdeel) {
     data = "";
-    if(onderdeel.documents.length == 1 && onderdeel.documents[0].note != null) {
-      return "<i>" + onderdeel.documents[0].note + "</i>";
-    }
-    // data += onderdeel.title
     for(i=0;i<onderdeel.documents.length;i++) {
       doc = onderdeel.documents[i];
+      if(doc.note != null) {
+        data += "<i>" + doc.note + "</i>";
+        continue;
+      }
       data += "<p><b>Vers " + doc.verse + "</b></p>"
       data += "<p>" + doc.text + "</p>"
     }
