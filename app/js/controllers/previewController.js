@@ -22,7 +22,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
     for(i=0;i<onderdeel.documents.length;i++) {
       doc = onderdeel.documents[i];
       if(doc.heading != "")
-        data += "<h5><i>" + doc.heading.replace("\n", "<br />") + "</i></h5>";
+        data += "<h5><i>" + doc.heading.replace(/\n/g, "<br />") + "</i></h5>";
       data += doc.verse + ' ' + doc.text
     }
     return data;
@@ -47,6 +47,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
     $scope.liturgie.forEach(function (element) {
       if(element.type == "song") {
         element.documents.forEach(function (document) {
+          console.log(element.title)
           makeSongSlide(doc, element.title, document.verse, document.text)
         }, this);
       }
@@ -83,7 +84,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
         { text: titleInParts + ': ' + highlight, options: { bold: false, font_size: 24 } }
       ], { cx: "90%" });
     }
-    slide.addText( text, { cx: "90%", cy: "80%", x: 20, y: 80, font_size: 24})
+    slide.addText( text.replace(/<br ?\/?>/g, ""), { cx: "90%", cy: "80%", x: 20, y: 80, font_size: 24})
   }
 
   var makeBookSlide = function(doc, element) {

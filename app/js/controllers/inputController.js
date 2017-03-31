@@ -167,6 +167,11 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
               for (i in res.docs) {
                 var currentDoc = res.docs[i]
 
+                // on first doc, start building the title
+                if(i == 0) {
+                  $scope.liturgie[index].title = capitalizeFirstLetter(book) + ' ' + chapter + ': ';
+                }
+
                 var keepIndex = keep.indexOf(currentDoc.verse)
                 // current doc verse not found in keep, so throw away
                 if (keepIndex == -1) {
@@ -177,11 +182,10 @@ liedbase.controller('InputController', function ($scope, $http, log, dbFactory, 
                 keep.remove(currentDoc.verse)
                 $scope.liturgie[index].documents.push(currentDoc)
                 
-                // on first doc, start building the title
-                if(i == 0) {
-                  $scope.liturgie[index].title = $scope.liturgie[index].regel + ': ' + currentDoc.verse;
+                // expand title
+                if($scope.liturgie[index].title.endsWith(": ")) {
+                  $scope.liturgie[index].title += currentDoc.verse;
                 } else {
-                  // expand title
                   $scope.liturgie[index].title += ', ' + currentDoc.verse;
                 }
               }
