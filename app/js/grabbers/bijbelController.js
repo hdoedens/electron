@@ -20,7 +20,7 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
                     continue;
                 }
 
-                lineparts = line.split(/(\d+)/)
+                lineparts = line.split(/(\d+)(?=[a-zA-Z])/)
                 for(var p=2; p<lineparts.length; p+=2) {
                     var doc = {
                         "_id": "bgt_" + 'genesis' + "_" + chapter + "_" + lineparts[p-1],

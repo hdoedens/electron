@@ -2,7 +2,7 @@ liedbase.controller('LevensliederenController', function ($sce, $scope, $http, l
     var verseText;
 
     $scope.grab = function () {
-        for (p = 1; p <= 10; p++) {
+        for (p = 1; p <= 150; p++) {
             // log.debug('Proberen te downloaden van lied: ' + p)
             $http.get("http://www.levensliederen.net/portfolio/psalm-" + p).then(function (response) {
                 // success
