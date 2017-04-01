@@ -82,7 +82,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
     } else {
       slide.addText([
         { text: titleInParts + ': ' + highlight, options: { bold: false, font_size: 24 } }
-      ], { cx: "90%" });
+      ], { x: 20, y: 30, cx: "90%" });
     }
     slide.addText( text.replace(/<br ?\/?>/g, ""), { cx: "90%", cy: "80%", x: 20, y: 80, font_size: 24})
   }
@@ -102,7 +102,7 @@ liedbase.controller('PreviewController', function ($sce, $scope, log, Liturgie) 
 
     slide.addText([
       { text: element.title, options: { bold: false, font_size: 24 } }
-    ], { cx: "90%" });
+    ], { x: 20, y: 30, cx: "90%" });
     slide.addText( text, { cx: "90%", cy: "80%", x: 20, y: 80, font_size: 24}) 
   }
 
