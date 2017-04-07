@@ -38,6 +38,8 @@ Object.defineProperty(Array.prototype, "remove", {
 });
 
 var log = require('electron-log')
+var fs = require('fs');
+var path = require('path');
 // log.transport.file = false;
 log.transports.console.level = 'warning';
 /** 
