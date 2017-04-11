@@ -7,6 +7,7 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
     var readBibleBook = function(path) {
         $http.get(path).success(function(data, returnCode, headers, uri) {
             var path = uri.url
+            console.log('processing: ' + path)
             var pathparts = path.split(pathlib.sep)
             var vertaling = pathparts[pathparts.length - 2]
             var book = pathparts[pathparts.length - 1].substring(0, pathparts[pathparts.length - 1].indexOf('.'))
@@ -26,17 +27,18 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
                     continue;
                 }
 
+                // console.log('processing: ' + book + ' ' + i)
                 lineparts = line.split(/(\d+)(?=[a-zA-Z])/)
                 for(var p=2; p<lineparts.length; p+=2) {
-                    var doc = {
+                    dbFactory.put({
                         "_id": vertaling + "_" + book + "_" + chapter + "_" + lineparts[p-1],
+                        "translation": vertaling,
                         "book": book,
                         "chapter": parseInt(chapter),
                         "verse": parseInt(lineparts[p-1]),
                         "text": lineparts[p],
                         "heading": heading
-                    }
-                    dbFactory.put(doc)
+                    })
                     // clear heading and chapter
                     heading = ""
                 }
