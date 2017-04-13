@@ -5,46 +5,47 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
     var bibleBaseDir = './app/assets/bible/';
 
     var readBibleBook = function(path) {
-        $http.get(path).success(function(data, returnCode, headers, uri) {
-            var path = uri.url
-            console.log('processing: ' + path)
-            var pathparts = path.split(pathlib.sep)
-            var vertaling = pathparts[pathparts.length - 2]
-            var book = pathparts[pathparts.length - 1].substring(0, pathparts[pathparts.length - 1].indexOf('.'))
-            var heading = ""
-            var chapter = ""
-            var lines = data.split(/\r?\n/g)
-            for(var i=0; i<lines.length; i++) {
-                var line = lines[i];
-                if(line == "")
-                    continue;
-                if(line.startsWith("=")) {
-                    heading += line.substring(1) + "\n"
-                    continue;
-                } 
-                if(line.startsWith("#")) {
-                    chapter = line.substring(1)
-                    continue;
-                }
-
-                // console.log('processing: ' + book + ' ' + i)
-                lineparts = line.split(/(\d+)(?=[a-zA-Z])/)
-                for(var p=2; p<lineparts.length; p+=2) {
-                    dbFactory.put({
-                        "_id": vertaling + "_" + book + "_" + chapter + "_" + lineparts[p-1],
-                        "translation": vertaling,
-                        "book": book,
-                        "chapter": parseInt(chapter),
-                        "verse": parseInt(lineparts[p-1]),
-                        "text": lineparts[p],
-                        "heading": heading
-                    })
-                    // clear heading and chapter
-                    heading = ""
-                }
-            
+        var pathparts = path.split(pathlib.sep)
+        var vertaling = pathparts[pathparts.length - 2]
+        var book = pathparts[pathparts.length - 1].substring(0, pathparts[pathparts.length - 1].indexOf('.'))
+        var heading = ""
+        var chapter = ""
+        console.log('processing: ' + path)
+        console.log('book: ' + book)
+        console.log('translation: ' + vertaling)
+        console.log('======================================')
+        var data = fs.readFileSync(path, 'utf8');
+        var lines = data.split(/\r?\n/g)
+        for(var i=0; i<lines.length; i++) {
+            var line = lines[i];
+            if(line == "")
+                continue;
+            if(line.startsWith("=")) {
+                heading += line.substring(1) + "\n"
+                continue;
+            } 
+            if(line.startsWith("#")) {
+                chapter = line.substring(1)
+                continue;
             }
-        });
+
+            // console.log('processing: ' + book + ' ' + i)
+            lineparts = line.split(/(\d+)(?=[a-zA-Z])/)
+            for(var p=2; p<lineparts.length; p+=2) {
+                dbFactory.put({
+                    "_id": vertaling + "_" + book + "_" + chapter + "_" + lineparts[p-1],
+                    "translation": vertaling,
+                    "book": book,
+                    "chapter": parseInt(chapter),
+                    "verse": parseInt(lineparts[p-1]),
+                    "text": lineparts[p],
+                    "heading": heading
+                })
+                // clear heading and chapter
+                heading = ""
+            }
+        
+        }
     }
 
     $scope.grab = function () {
