@@ -10,8 +10,8 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
 
     $scope.grab = function () {
 
-        require('node-dir').files(__dirname, function(err, files) {
-            processBook(files, files.length-1);
+        require('node-dir').files(bibleBaseDir, function(err, files) {
+            processBook(files, 0);
         });
 
     }
@@ -25,34 +25,28 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
             var book = pathparts[pathparts.length - 1].substring(0, pathparts[pathparts.length - 1].indexOf('.'))
             var heading = ""
             var chapter = ""
-            console.log('book: ' + book)
-            console.log('translation: ' + vertaling)
-            console.log('======================================')
             var data = fs.readFileSync(path, 'utf8');
             var lines = data.split(/\r?\n/g)
             var counter = lines.length;
-            console.log('counter: ' + counter)
             for(var i=0; i<lines.length; i++) {
                 var line = lines[i];
                 if(line == "") {
-                    counter = counter--;
+                    counter -= 1;
                     continue;
                 }
                 if(line.startsWith("=")) {
                     heading += line.substring(1) + "\n"
-                    counter = counter--;
+                    counter -= 1;
                     continue;
                 } 
                 if(line.startsWith("#")) {
                     chapter = line.substring(1)
-                    counter = counter--;
+                    counter -= 1;
                     continue;
                 }
 
-                // console.log('processing: ' + book + ' ' + i)
                 lineparts = line.split(/(\d+)(?=[a-zA-Z])/)
                 counter += lineparts.length;
-                console.log('counter: ' + counter)
                 for(var p=2; p<lineparts.length; p+=2) {
                     dbFactory.put({
                         "_id": vertaling + "_" + book + "_" + chapter + "_" + lineparts[p-1],
@@ -63,18 +57,16 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
                         "text": lineparts[p],
                         "heading": heading
                     }).then(function (response) {
-                        console.log(response);
-                        console.log('counter: ' + counter + ' index: ' + index);
-                        counter -= 3;
-                        if(counter == 0 && index > 0) {
-                            processBook(files, index--);
+                        console.log('suc. counter: ' + counter + ' index: ' + index);
+                        counter -= 4;
+                        if(counter == 0 && index < files.length) {
+                            processBook(files, index+1);
                         }
                     }).catch(function (err) {
-                        console.log(err);
-                        console.log('counter: ' + counter + ' index: ' + index);
-                        counter -= 3;
-                        if(counter == 0 && index > 0) {
-                            processBook(files, index--);
+                        console.log('err. counter: ' + counter + ' index: ' + index);
+                        counter -= 4;
+                        if(counter == 0 && index < files.length) {
+                            processBook(files, index+1);
                         }
                     });
                     heading = ""
@@ -82,7 +74,7 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
             
             }
         } else {
-            processBook(files, index--);
+            processBook(files, index+1);
         }
     }
 
