@@ -3,7 +3,7 @@ liedbase.factory('dbFactory', function (pouchDB, pouchDBDecorators, log) {
     var db = pouchDB('liturgieDB')
     // db.destroy()
 
-    db.setMaxListeners(50);
+    db.setMaxListeners(5000);
 
     db.find = pouchDBDecorators.qify(db.find);
 
