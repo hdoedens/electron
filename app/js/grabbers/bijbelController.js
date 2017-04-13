@@ -11,9 +11,7 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
     $scope.grab = function () {
 
         require('node-dir').files(__dirname, function(err, files) {
-            for(pi=0; pi<files.length; pi++) {
-                
-            }
+            processBook(files, files.length-1);
         });
 
     }
@@ -32,6 +30,7 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
             console.log('======================================')
             var data = fs.readFileSync(path, 'utf8');
             var lines = data.split(/\r?\n/g)
+            var counter = lines.length;
             for(var i=0; i<lines.length; i++) {
                 var line = lines[i];
                 if(line == "")
@@ -47,6 +46,7 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
 
                 // console.log('processing: ' + book + ' ' + i)
                 lineparts = line.split(/(\d+)(?=[a-zA-Z])/)
+                counter += lineparts.length;
                 for(var p=2; p<lineparts.length; p+=2) {
                     dbFactory.put({
                         "_id": vertaling + "_" + book + "_" + chapter + "_" + lineparts[p-1],
@@ -58,11 +58,14 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
                         "heading": heading
                     }).then(function (response) {
                         console.log(response);
+                        counter -= 2;
+                        console.log('counter: ' + counter + ' index: ' + index);
+                        if(counter == 0 && index > 0) {
+                            processBook(files, index--);
+                        }
                     }).catch(function (err) {
                         console.log(err);
                     });
-                    // clear heading and chapter
-                    // console.log('db.put: ' + book)
                     heading = ""
                 }
             
