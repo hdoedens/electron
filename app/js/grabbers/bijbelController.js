@@ -57,15 +57,15 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
                         "text": lineparts[p],
                         "heading": heading
                     }).then(function (response) {
-                        console.log('suc. counter: ' + counter + ' index: ' + index);
+                        // console.log('suc. counter: ' + counter + ' index: ' + index + ' size: ' + files.length);
                         counter -= 4;
                         if(counter == 0 && index < files.length) {
                             processBook(files, index+1);
                         }
                     }).catch(function (err) {
-                        console.log('err. counter: ' + counter + ' index: ' + index);
+                        // console.log('err. counter: ' + counter + ' index: ' + index + ' size: ' + files.length);
                         counter -= 4;
-                        if(counter == 0 && index < files.length) {
+                        if(counter == 0 && index < files.length-1) {
                             processBook(files, index+1);
                         }
                     });
