@@ -28,25 +28,30 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
             var data = fs.readFileSync(path, 'utf8');
             var lines = data.split(/\r?\n/g)
             var counter = lines.length;
+            console.log('linecounter: ' + counter);
             for(var i=0; i<lines.length; i++) {
                 var line = lines[i];
                 if(line == "") {
                     counter -= 1;
+                    console.log('linecounter: ' + counter);
                     continue;
                 }
                 if(line.startsWith("=")) {
                     heading += line.substring(1) + "\n"
                     counter -= 1;
+                    console.log('linecounter: ' + counter);
                     continue;
                 } 
                 if(line.startsWith("#")) {
                     chapter = line.substring(1)
                     counter -= 1;
+                    console.log('linecounter: ' + counter);
                     continue;
                 }
 
                 lineparts = line.split(/(\d+)(?=[a-zA-Z])/)
                 counter += lineparts.length;
+                console.log('linepartscounter: ' + counter + ': ' + line);
                 for(var p=2; p<lineparts.length; p+=2) {
                     dbFactory.put({
                         "_id": vertaling + "_" + book + "_" + chapter + "_" + lineparts[p-1],
@@ -57,13 +62,13 @@ liedbase.controller('BijbelController', function ($sce, $scope, $http, log, dbFa
                         "text": lineparts[p],
                         "heading": heading
                     }).then(function (response) {
-                        // console.log('suc. counter: ' + counter + ' index: ' + index + ' size: ' + files.length);
+                        console.log('suc. counter: ' + counter);
                         counter -= 4;
                         if(counter == 0 && index < files.length) {
                             processBook(files, index+1);
                         }
                     }).catch(function (err) {
-                        // console.log('err. counter: ' + counter + ' index: ' + index + ' size: ' + files.length);
+                        console.log('err. counter: ' + counter);
                         counter -= 4;
                         if(counter == 0 && index < files.length-1) {
                             processBook(files, index+1);
